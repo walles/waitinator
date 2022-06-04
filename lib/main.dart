@@ -21,18 +21,28 @@ class MyApp extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                TextField(
-                  decoration: const InputDecoration(
-                      labelText: "Number I want to get to",
-                      hintText: "123 if counting up, 0 if counting down"),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ], // Only numbers can be entered
-                ),
+                _topRow(),
               ],
             )),
       ),
+    );
+  }
+
+  Widget _topRow() {
+    return Row(
+      children: [
+        const Text("Number I want to get to: "),
+        Expanded(
+            child: TextField(
+          decoration: const InputDecoration(
+              labelText: "", // Left blank to hide hintText until clicked
+              hintText: "Can be 0 if counting down"),
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ], // Only numbers can be entered
+        )),
+      ],
     );
   }
 }
