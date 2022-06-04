@@ -13,18 +13,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Queue Time Estimator',
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Queue Time Estimator'),
-        ),
-        body: Container(
-            padding: const EdgeInsets.all(40.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _topRow(),
-              ],
-            )),
-      ),
+          appBar: AppBar(
+            title: const Text('Queue Time Estimator'),
+          ),
+          body: Container(
+            alignment: Alignment.center,
+            child: Container(
+                padding: const EdgeInsets.all(40.0),
+                constraints: const BoxConstraints(
+                    maxWidth:
+                        400 // FIXME: What is the unit here? How will this look on different devices?
+                    ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    _topRow(),
+                  ],
+                )),
+          )),
     );
   }
 
