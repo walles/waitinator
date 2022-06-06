@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:waitinator/screen_wrapper.dart';
 
-class EtaScreen extends StatelessWidget {
+class EtaScreen extends StatefulWidget {
   final int _target;
-  final List<_Observation> _observations;
+  final int _firstObservation;
 
-  EtaScreen(int target, int current, {Key? key})
+  const EtaScreen(int target, int current, {Key? key})
       : _target = target,
-        _observations = [_Observation(DateTime.now(), current)],
+        _firstObservation = current,
         super(key: key);
+
+  @override
+  State<EtaScreen> createState() => _EtaScreenState();
+}
+
+class _EtaScreenState extends State<EtaScreen> {
+  int _target = 0;
+  final List<_Observation> _observations = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _target = widget._target;
+    _observations.add(_Observation(DateTime.now(), widget._firstObservation));
+  }
 
   @override
   Widget build(BuildContext context) {
