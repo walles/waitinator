@@ -25,3 +25,6 @@ Ref: <https://docs.flutter.dev/>
 - Preserve state even on page reloads
 - Make sure we can go back from the ETA screen
 - Add a reset button somewhere?
+- Adapt app theme to system theme setting: <https://thiagoevoa.medium.com/change-flutter-app-theme-according-to-the-system-theme-mode-c4a63d05128f>
+- On the initial screen, make the labels vertical-align properly with the
+  textfields
