@@ -54,7 +54,9 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
   Widget _positionIWantToGetToWidget() {
     return TextField(
       onChanged: (text) {
-        _positionIWantToGetTo = text;
+        setState(() {
+          _positionIWantToGetTo = text;
+        });
       },
       decoration: const InputDecoration(
           labelText: "Position I want to get to",
@@ -74,7 +76,9 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
   Widget _currentPositionWidget() {
     return TextField(
       onChanged: (text) {
-        _currentPosition = text;
+        setState(() {
+          _currentPosition = text;
+        });
       },
       decoration:
           const InputDecoration(labelText: "Current position", hintText: "123"),
@@ -92,11 +96,30 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
   /// Text explaining what's needed to be able to start. Potentially multiline,
   /// will wrap automatically.
   Widget _explanationWidget() {
-    // FIXME: Explain if goal needs to be set
-    // FIXME: Explain if current needs to be set
-    // FIXME: Explain if currenct / goal are the same
-    const text =
-        "This text can potentially be longer than one line and therefore it should wrap automatically.";
-    return const Flexible(child: Text(text));
+    String text = "";
+    if (_positionIWantToGetTo == "") {
+      text =
+          "Please set the number you want to get to. Can be 0 if you want to "
+          "count down, or some higher number if you're in a ticketing queue.";
+    } else if (_currentPosition == "") {
+      text =
+          "Please set the current position. Can be your current ticket number, "
+          "or how far you have left if you're counting down.";
+    } else if (_currentPosition == _positionIWantToGetTo) {
+      text = "You are already there!";
+    } else {
+      var from = int.parse(_currentPosition);
+      var to = int.parse(_positionIWantToGetTo);
+      if (to > 0 && from > to) {
+        text = "NOTE: Counting down to $_positionIWantToGetTo (not zero) is "
+            "uncommon, are you sure this is right?";
+      } else {
+        // FIXME: Enable the start-computing button
+        text = "All set, let's go!";
+      }
+    }
+
+    assert(text != "");
+    return Flexible(child: Text(text));
   }
 }
