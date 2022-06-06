@@ -1,16 +1,15 @@
-# flutter_application_1
+# Waitinator
 
-A new Flutter project.
+Are we there yet?
 
-## Getting Started
+Ref: <https://docs.flutter.dev/>
 
-This project is a starting point for a Flutter application.
+# TODO
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Finish initial screen
+- Add a button for getting to the ETA screen once the initial screen has been
+  properly filled in by the user
+- Add an ETA screen
+- Enable adding queue position observations on the ETA screen
+- Estimate time to arrival
+- Make an icon
