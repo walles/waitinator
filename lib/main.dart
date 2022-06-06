@@ -29,7 +29,10 @@ class WaitinatorApp extends StatelessWidget {
                   children: <Widget>[
                     _positionIWantToGetTo(),
                     _currentPosition(),
-                    // FIXME: Add some spacing before the explanation
+                    const SizedBox(
+                        height:
+                            30 // FIXME: What is the unit here? How will this look on different devices?
+                        ),
                     _explanation(),
                   ],
                 )),
