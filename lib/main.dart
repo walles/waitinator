@@ -29,6 +29,8 @@ class WaitinatorApp extends StatelessWidget {
                   children: <Widget>[
                     _positionIWantToGetTo(),
                     _currentPosition(),
+                    // FIXME: Add some spacing before the explanation
+                    _explanation(),
                   ],
                 )),
           )),
@@ -81,5 +83,16 @@ class WaitinatorApp extends StatelessWidget {
         )),
       ],
     );
+  }
+
+  /// Text explaining what's needed to be able to start. Potentially multiline,
+  /// will wrap automatically.
+  Widget _explanation() {
+    // FIXME: Explain if goal needs to be set
+    // FIXME: Explain if current needs to be set
+    // FIXME: Explain if currenct / goal are the same
+    const text =
+        "This text can potentially be longer than one line and therefore it should wrap automatically.";
+    return const Flexible(child: Text(text));
   }
 }
