@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:waitinator/eta_screen.dart';
+import 'package:waitinator/screen_wrapper.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -24,37 +25,20 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Waitinator'),
-      ),
-      body: Container(
-        alignment: Alignment.center,
-        child: Container(
-            padding: const EdgeInsets.all(40.0),
-            constraints: const BoxConstraints(
-                maxWidth:
-                    400 // FIXME: What is the unit here? How will this look on different devices?
-                ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                _positionIWantToGetToWidget(),
-                _currentPositionWidget(),
-                const SizedBox(
-                    height:
-                        20 // FIXME: What is the unit here? How will this look on different devices?
-                    ),
-                _explanationWidget(),
-                const SizedBox(
-                    height:
-                        20 // FIXME: What is the unit here? How will this look on different devices?
-                    ),
-                _startButton(),
-              ],
-            )),
-      ),
-    );
+    return ScreenWrapper(<Widget>[
+      _positionIWantToGetToWidget(),
+      _currentPositionWidget(),
+      const SizedBox(
+          height:
+              20 // FIXME: What is the unit here? How will this look on different devices?
+          ),
+      _explanationWidget(),
+      const SizedBox(
+          height:
+              20 // FIXME: What is the unit here? How will this look on different devices?
+          ),
+      _startButton(),
+    ]);
   }
 
   /// "Number I want to get to: ___"
