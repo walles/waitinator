@@ -17,7 +17,8 @@ class EtaScreen extends StatelessWidget {
           child: Text(
         "You will get to $_target in\n"
         "between 13min, 12:34\n"
-        "and 23min, 12:44",
+        "and 23min, 12:44\n"
+        "for a total queue time of 17-27min",
         textAlign: TextAlign.right,
       )),
       const Flexible(child: Text("[Line with a timestamp and its number]")),
