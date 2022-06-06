@@ -52,7 +52,9 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
       decoration: const InputDecoration(
           labelText: "Position I want to get to",
           hintText: "Can be 0 if counting down"),
+      textInputAction: TextInputAction.next,
       keyboardType: TextInputType.number,
+      autofocus: true,
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.digitsOnly,
 
@@ -74,6 +76,7 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
       decoration:
           const InputDecoration(labelText: "Current position", hintText: "123"),
       keyboardType: TextInputType.number,
+      textInputAction: TextInputAction.next,
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.digitsOnly,
 
@@ -97,7 +100,7 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
           "Please set the current position. Can be your current ticket number, "
           "or how far you have left if you're counting down.";
     } else if (_currentPosition == _positionIWantToGetTo) {
-      text = "You are already there!";
+      text = "You are already there!\n";
     } else {
       var from = int.parse(_currentPosition);
       var to = int.parse(_positionIWantToGetTo);
