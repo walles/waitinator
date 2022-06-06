@@ -2,6 +2,13 @@
 
 Are we there yet?
 
+Use case:
+
+- You are standing in line
+- It takes forever
+- You add some observations in this app
+- The app tells you when you're likely to be served
+
 Ref: <https://docs.flutter.dev/>
 
 # TODO
