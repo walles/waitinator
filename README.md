@@ -20,3 +20,8 @@ Ref: <https://docs.flutter.dev/>
 - Enable adding queue position observations on the ETA screen
 - Estimate time to arrival
 - Make an icon
+- Set up CI
+- Publish to Github pages
+- Preserve state even on page reloads
+- Make sure we can go back from the ETA screen
+- Add a reset button somewhere?

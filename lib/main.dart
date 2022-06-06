@@ -11,10 +11,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Queue Time Estimator',
+      title: 'Waitinator',
       home: Scaffold(
           appBar: AppBar(
-            title: const Text('Queue Time Estimator'),
+            title: const Text('Waitinator'),
           ),
           body: Container(
             alignment: Alignment.center,
