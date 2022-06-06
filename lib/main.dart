@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    _topRow(),
+                    _positionIWantToGetTo(),
                   ],
                 )),
           )),
@@ -35,10 +35,10 @@ class MyApp extends StatelessWidget {
   }
 
   /// "Number I want to get to: ___"
-  Widget _topRow() {
+  Widget _positionIWantToGetTo() {
     return Row(
       children: [
-        const Text("Number I want to get to: "),
+        const Text("Position I want to get to: "),
         Expanded(
             child: TextField(
           decoration: const InputDecoration(
@@ -46,7 +46,11 @@ class MyApp extends StatelessWidget {
               hintText: "Can be 0 if counting down"),
           keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly
+            FilteringTextInputFormatter.digitsOnly,
+
+            // I don't expect more than three digits really, but if we allow up
+            // to 5 we shouldn't be limiting anybody.
+            LengthLimitingTextInputFormatter(5),
           ], // Only numbers can be entered
         )),
       ],
