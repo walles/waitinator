@@ -31,7 +31,7 @@ class WaitinatorApp extends StatelessWidget {
                     _currentPosition(),
                     const SizedBox(
                         height:
-                            30 // FIXME: What is the unit here? How will this look on different devices?
+                            20 // FIXME: What is the unit here? How will this look on different devices?
                         ),
                     _explanation(),
                   ],
@@ -42,49 +42,34 @@ class WaitinatorApp extends StatelessWidget {
 
   /// "Number I want to get to: ___"
   Widget _positionIWantToGetTo() {
-    return Row(
-      children: [
-        const Text("Position I want to get to: "),
-        Expanded(
-            child: TextField(
-          decoration: const InputDecoration(
-              labelText:
-                  "", // Intentionally blank to hide hintText until clicked
-              hintText: "Can be 0 if counting down"),
-          keyboardType: TextInputType.number,
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly,
+    return TextField(
+      decoration: const InputDecoration(
+          labelText: "Position I want to get to",
+          hintText: "Can be 0 if counting down"),
+      keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
 
-            // I don't expect more than three digits really, but if we allow up
-            // to 5 we shouldn't be limiting anybody.
-            LengthLimitingTextInputFormatter(5),
-          ], // Only numbers can be entered
-        )),
+        // I don't expect more than three digits really, but if we allow up
+        // to 5 we shouldn't be limiting anybody.
+        LengthLimitingTextInputFormatter(5),
       ],
     );
   }
 
   /// "Current position: ___"
   Widget _currentPosition() {
-    return Row(
-      children: [
-        const Text("Current position: "),
-        Expanded(
-            child: TextField(
-          decoration: const InputDecoration(
-              labelText:
-                  "", // Intentionally blank to hide hintText until clicked
-              hintText: "123"),
-          keyboardType: TextInputType.number,
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly,
+    return TextField(
+      decoration:
+          const InputDecoration(labelText: "Current position", hintText: "123"),
+      keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
 
-            // I don't expect more than three digits really, but if we allow up
-            // to 5 we shouldn't be limiting anybody.
-            LengthLimitingTextInputFormatter(5),
-          ], // Only numbers can be entered
-        )),
-      ],
+        // I don't expect more than three digits really, but if we allow up
+        // to 5 we shouldn't be limiting anybody.
+        LengthLimitingTextInputFormatter(5),
+      ], // Only numbers can be entered
     );
   }
 
