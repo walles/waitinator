@@ -13,7 +13,6 @@ Ref: <https://docs.flutter.dev/>
 
 # TODO
 
-- Add an ETA screen
 - Enable adding queue position observations on the ETA screen
 - Estimate time to arrival
 - Publish to Github pages

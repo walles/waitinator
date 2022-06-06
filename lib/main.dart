@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:waitinator/eta_screen.dart';
 
 void main() {
-  runApp(const WaitinatorApp());
+  runApp(const MaterialApp(
+    title: "Waitinator",
+    home: WaitinatorApp(),
+  ));
 }
 
 class WaitinatorApp extends StatefulWidget {
@@ -20,38 +24,36 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Waitinator',
-      home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Waitinator'),
-          ),
-          body: Container(
-            alignment: Alignment.center,
-            child: Container(
-                padding: const EdgeInsets.all(40.0),
-                constraints: const BoxConstraints(
-                    maxWidth:
-                        400 // FIXME: What is the unit here? How will this look on different devices?
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Waitinator'),
+      ),
+      body: Container(
+        alignment: Alignment.center,
+        child: Container(
+            padding: const EdgeInsets.all(40.0),
+            constraints: const BoxConstraints(
+                maxWidth:
+                    400 // FIXME: What is the unit here? How will this look on different devices?
+                ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                _positionIWantToGetToWidget(),
+                _currentPositionWidget(),
+                const SizedBox(
+                    height:
+                        20 // FIXME: What is the unit here? How will this look on different devices?
                     ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    _positionIWantToGetToWidget(),
-                    _currentPositionWidget(),
-                    const SizedBox(
-                        height:
-                            20 // FIXME: What is the unit here? How will this look on different devices?
-                        ),
-                    _explanationWidget(),
-                    const SizedBox(
-                        height:
-                            20 // FIXME: What is the unit here? How will this look on different devices?
-                        ),
-                    _startButton(),
-                  ],
-                )),
-          )),
+                _explanationWidget(),
+                const SizedBox(
+                    height:
+                        20 // FIXME: What is the unit here? How will this look on different devices?
+                    ),
+                _startButton(),
+              ],
+            )),
+      ),
     );
   }
 
@@ -152,7 +154,16 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
       return disabled;
     }
 
-    // FIXME: Add some actual logic in onPressed
-    return ElevatedButton(onPressed: () {}, child: goText);
+    return ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (context) {
+                return const EtaScreen();
+              },
+            ),
+          );
+        },
+        child: goText);
   }
 }
