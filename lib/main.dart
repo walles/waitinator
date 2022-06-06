@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  runApp(WaitinatorApp());
+  runApp(const WaitinatorApp());
 }
 
 class WaitinatorApp extends StatefulWidget {
@@ -15,6 +15,9 @@ class WaitinatorApp extends StatefulWidget {
 }
 
 class _WaitinatorAppState extends State<WaitinatorApp> {
+  String _positionIWantToGetTo = "";
+  String _currentPosition = "";
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,7 +53,9 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
   /// "Number I want to get to: ___"
   Widget _positionIWantToGetToWidget() {
     return TextField(
-      onChanged: (text) {},
+      onChanged: (text) {
+        _positionIWantToGetTo = text;
+      },
       decoration: const InputDecoration(
           labelText: "Position I want to get to",
           hintText: "Can be 0 if counting down"),
@@ -68,6 +73,9 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
   /// "Current position: ___"
   Widget _currentPositionWidget() {
     return TextField(
+      onChanged: (text) {
+        _currentPosition = text;
+      },
       decoration:
           const InputDecoration(labelText: "Current position", hintText: "123"),
       keyboardType: TextInputType.number,
