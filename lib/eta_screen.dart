@@ -7,7 +7,15 @@ class EtaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const ScreenWrapper(<Widget>[
-      Text("Imagine some ETA calculations here"),
+      Flexible(
+          child: Text("Earliest in 13min, 12:34\n"
+              "Latest in 23min, 12:44")),
+      Flexible(child: Text("[Line with a timestamp and its number]")),
+      Flexible(child: Text("[...]")),
+      Flexible(child: Text("[Line with a timestamp and its number]")),
+      Flexible(
+          child:
+              Text("[Line with timestamp, number entry and an Enter button]")),
     ]);
   }
 }
