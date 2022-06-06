@@ -119,9 +119,14 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
         text = "NOTE: Counting down to $_positionIWantToGetTo (not zero) is "
             "uncommon, are you sure this is right?";
       } else {
+        var direction = "up";
+        if (from > to) {
+          direction = "down";
+        }
+
         // Trailing linefeed makes the UI skip around less when going from the
         // long explanations above to this short explanation.
-        text = "All set, let's go!\n";
+        text = "Counting $direction from $from, let's go!\n";
       }
     }
 
