@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ScreenWrapper extends StatelessWidget {
   final List<Widget> _children;
 
-  /// @param children Will be rendered in a Column
+  /// The [children] will be rendered in a Column.
   const ScreenWrapper(List<Widget> children, {Key? key})
       : _children = children,
         super(key: key);
