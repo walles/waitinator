@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  runApp(const WaitinatorApp());
+  runApp(WaitinatorApp());
 }
 
-class WaitinatorApp extends StatelessWidget {
+class WaitinatorApp extends StatefulWidget {
   const WaitinatorApp({Key? key}) : super(key: key);
 
+  @override
+  State<StatefulWidget> createState() {
+    return _WaitinatorAppState();
+  }
+}
+
+class _WaitinatorAppState extends State<WaitinatorApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,13 +34,13 @@ class WaitinatorApp extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    _positionIWantToGetTo(),
-                    _currentPosition(),
+                    _positionIWantToGetToWidget(),
+                    _currentPositionWidget(),
                     const SizedBox(
                         height:
                             20 // FIXME: What is the unit here? How will this look on different devices?
                         ),
-                    _explanation(),
+                    _explanationWidget(),
                   ],
                 )),
           )),
@@ -41,8 +48,9 @@ class WaitinatorApp extends StatelessWidget {
   }
 
   /// "Number I want to get to: ___"
-  Widget _positionIWantToGetTo() {
+  Widget _positionIWantToGetToWidget() {
     return TextField(
+      onChanged: (text) {},
       decoration: const InputDecoration(
           labelText: "Position I want to get to",
           hintText: "Can be 0 if counting down"),
@@ -58,7 +66,7 @@ class WaitinatorApp extends StatelessWidget {
   }
 
   /// "Current position: ___"
-  Widget _currentPosition() {
+  Widget _currentPositionWidget() {
     return TextField(
       decoration:
           const InputDecoration(labelText: "Current position", hintText: "123"),
@@ -75,7 +83,7 @@ class WaitinatorApp extends StatelessWidget {
 
   /// Text explaining what's needed to be able to start. Potentially multiline,
   /// will wrap automatically.
-  Widget _explanation() {
+  Widget _explanationWidget() {
     // FIXME: Explain if goal needs to be set
     // FIXME: Explain if current needs to be set
     // FIXME: Explain if currenct / goal are the same
