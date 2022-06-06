@@ -13,9 +13,6 @@ Ref: <https://docs.flutter.dev/>
 
 # TODO
 
-- Finish initial screen
-- Add a button for getting to the ETA screen once the initial screen has been
-  properly filled in by the user
 - Add an ETA screen
 - Enable adding queue position observations on the ETA screen
 - Estimate time to arrival
@@ -26,3 +23,9 @@ Ref: <https://docs.flutter.dev/>
 - Make sure we can go back from the ETA screen
 - Add a reset button somewhere?
 - Adapt app theme to system theme setting: <https://thiagoevoa.medium.com/change-flutter-app-theme-according-to-the-system-theme-mode-c4a63d05128f>
+
+## Done
+
+- Finish initial screen
+- Add a button for getting to the ETA screen once the initial screen has been
+  properly filled in by the user

@@ -44,6 +44,11 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
                             20 // FIXME: What is the unit here? How will this look on different devices?
                         ),
                     _explanationWidget(),
+                    const SizedBox(
+                        height:
+                            20 // FIXME: What is the unit here? How will this look on different devices?
+                        ),
+                    _startButton(),
                   ],
                 )),
           )),
@@ -114,12 +119,35 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
         text = "NOTE: Counting down to $_positionIWantToGetTo (not zero) is "
             "uncommon, are you sure this is right?";
       } else {
-        // FIXME: Enable the start-computing button
-        text = "All set, let's go!";
+        // Trailing linefeed makes the UI skip around less when going from the
+        // long explanations above to this short explanation.
+        text = "All set, let's go!\n";
       }
     }
 
     assert(text != "");
     return Flexible(child: Text(text));
+  }
+
+  Widget _startButton() {
+    // FIXME: The enable-disable logic in here is almost identical to the one in
+    // _explanationWidget(). Merge them somehow?
+
+    const goText = Text("Go!");
+    const disabled = ElevatedButton(onPressed: null, child: goText);
+    if (_positionIWantToGetTo == "") {
+      return disabled;
+    }
+    if (_currentPosition == "") {
+      return disabled;
+    }
+    var from = int.parse(_currentPosition);
+    var to = int.parse(_positionIWantToGetTo);
+    if (from == to) {
+      return disabled;
+    }
+
+    // FIXME: Add some actual logic in onPressed
+    return ElevatedButton(onPressed: () {}, child: goText);
   }
 }
