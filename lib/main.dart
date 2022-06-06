@@ -143,7 +143,9 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
           Navigator.of(context).push(
             MaterialPageRoute<void>(
               builder: (context) {
-                return const EtaScreen();
+                var target = int.parse(_positionIWantToGetTo);
+                var current = int.parse(_currentPosition);
+                return EtaScreen(target, current);
               },
             ),
           );
