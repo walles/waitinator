@@ -36,15 +36,35 @@ class _EtaScreenState extends State<EtaScreen> {
         "for a total queue time of 17-27min",
         textAlign: TextAlign.right,
       )),
-      const Flexible(child: Text("[Line with a timestamp and its number]")),
-      Flexible(
-          child: Text(
-              "... list of ${_observations.length.toString()} entries...")),
-      const Flexible(child: Text("[Line with a timestamp and its number]")),
-      const Flexible(
-          child:
-              Text("[Line with timestamp, number entry and an Enter button]")),
+
+      const SizedBox(
+          height:
+              20 // FIXME: What is the unit here? How will this look on different devices?
+          ),
+
+      // FIXME: Add an enter-a-new-observation thingy here
+
+      Expanded(
+          child: ListView(
+        children: _renderObservations(),
+      )),
     ]);
+  }
+
+  List<Widget> _renderObservations() {
+    List<Widget> widgets = [];
+
+    for (var observation in _observations) {
+      // FIXME: Render only time-of-day, not the date
+      // FIXME: Render only to seconds precision
+      // FIXME: Bold the position
+      widgets.add(Text(
+        "${observation.timestamp} | ${observation.position}",
+        textAlign: TextAlign.center,
+      ));
+    }
+
+    return widgets;
   }
 }
 
