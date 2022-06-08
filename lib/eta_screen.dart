@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waitinator/screen_wrapper.dart';
+import 'package:intl/intl.dart';
 
 class EtaScreen extends StatefulWidget {
   final int _target;
@@ -17,6 +18,7 @@ class EtaScreen extends StatefulWidget {
 class _EtaScreenState extends State<EtaScreen> {
   int _target = 0;
   final List<_Observation> _observations = [];
+  final hhmmss = DateFormat.Hms();
 
   @override
   void initState() {
@@ -55,11 +57,9 @@ class _EtaScreenState extends State<EtaScreen> {
     List<Widget> widgets = [];
 
     for (var observation in _observations) {
-      // FIXME: Render only time-of-day, not the date
-      // FIXME: Render only to seconds precision
       // FIXME: Bold the position
       widgets.add(Text(
-        "${observation.timestamp} | ${observation.position}",
+        "${hhmmss.format(observation.timestamp)} | ${observation.position}",
         textAlign: TextAlign.center,
       ));
     }
