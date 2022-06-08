@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:waitinator/screen_wrapper.dart';
 import 'package:intl/intl.dart';
 
@@ -38,14 +39,11 @@ class _EtaScreenState extends State<EtaScreen> {
         "for a total queue time of 17-27min",
         textAlign: TextAlign.right,
       )),
-
       const SizedBox(
           height:
               20 // FIXME: What is the unit here? How will this look on different devices?
           ),
-
-      // FIXME: Add an enter-a-new-observation thingy here
-
+      _enterNewObservationRow(),
       Expanded(
           child: ListView(
         children: _renderObservations(),
@@ -65,6 +63,26 @@ class _EtaScreenState extends State<EtaScreen> {
     }
 
     return widgets;
+  }
+
+  Widget _enterNewObservationRow() {
+    // FIXME: Put current time ticking on the left of this TextField
+    // FIXME: On Enter, add new observation to our list
+    return TextField(
+      decoration: const InputDecoration(
+        labelText: "Updated position",
+        // FIXME: hintText: Example number between latest observation and target
+      ),
+      keyboardType: TextInputType.number,
+      autofocus: true,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
+
+        // I don't expect more than three digits really, but if we allow up
+        // to 5 we shouldn't be limiting anybody.
+        LengthLimitingTextInputFormatter(5),
+      ],
+    );
   }
 }
 
