@@ -66,12 +66,16 @@ class _EtaScreenState extends State<EtaScreen> {
   }
 
   Widget _enterNewObservationRow() {
+    var lastPosition = _observations.last.position;
+    var examplePosition =
+        (_target < lastPosition) ? lastPosition - 1 : lastPosition + 1;
+    // FIXME: Disable this box if we're too close to the target
     // FIXME: Put current time ticking on the left of this TextField
     // FIXME: On Enter, add new observation to our list
     return TextField(
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         labelText: "Updated position",
-        // FIXME: hintText: Example number between latest observation and target
+        hintText: examplePosition.toString(),
       ),
       keyboardType: TextInputType.number,
       autofocus: true,
