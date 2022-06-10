@@ -43,13 +43,42 @@ class _EtaScreenState extends State<EtaScreen> {
           height:
               20 // FIXME: What is the unit here? How will this look on different devices?
           ),
-      _enterNewObservationRow(),
-      Expanded(child: _renderObservations()),
+      _renderObservations(),
     ]);
   }
 
   BoxScrollView _renderObservations() {
-    List<Widget> widgets = [];
+    var lastPosition = _observations.last.position;
+    var examplePosition =
+        (_target < lastPosition) ? lastPosition - 1 : lastPosition + 1;
+    // FIXME: Disable this box if we're too close to the target
+    // FIXME: Put current time ticking on the left of this TextField
+    // FIXME: On Enter, add new observation to our list
+
+    List<Widget> widgets = [
+      const Align(
+          alignment: Alignment.bottomRight,
+          child: Text(
+            // FIXME: Keep this ticking so it displays the current time
+            "12:34:56",
+            textAlign: TextAlign.right,
+          )),
+      TextField(
+        decoration: InputDecoration(
+          labelText: "Updated position",
+          hintText: examplePosition.toString(),
+        ),
+        keyboardType: TextInputType.number,
+        autofocus: true,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly,
+
+          // I don't expect more than three digits really, but if we allow up
+          // to 5 we shouldn't be limiting anybody.
+          LengthLimitingTextInputFormatter(5),
+        ],
+      )
+    ];
 
     for (var observation in _observations) {
       widgets.add(Text(
@@ -67,31 +96,9 @@ class _EtaScreenState extends State<EtaScreen> {
     return GridView.count(
       crossAxisCount: 2,
       crossAxisSpacing: 10,
+      shrinkWrap: true,
+      childAspectRatio: 3.0,
       children: widgets,
-    );
-  }
-
-  Widget _enterNewObservationRow() {
-    var lastPosition = _observations.last.position;
-    var examplePosition =
-        (_target < lastPosition) ? lastPosition - 1 : lastPosition + 1;
-    // FIXME: Disable this box if we're too close to the target
-    // FIXME: Put current time ticking on the left of this TextField
-    // FIXME: On Enter, add new observation to our list
-    return TextField(
-      decoration: InputDecoration(
-        labelText: "Updated position",
-        hintText: examplePosition.toString(),
-      ),
-      keyboardType: TextInputType.number,
-      autofocus: true,
-      inputFormatters: <TextInputFormatter>[
-        FilteringTextInputFormatter.digitsOnly,
-
-        // I don't expect more than three digits really, but if we allow up
-        // to 5 we shouldn't be limiting anybody.
-        LengthLimitingTextInputFormatter(5),
-      ],
     );
   }
 }
