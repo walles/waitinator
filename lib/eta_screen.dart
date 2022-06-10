@@ -44,25 +44,31 @@ class _EtaScreenState extends State<EtaScreen> {
               20 // FIXME: What is the unit here? How will this look on different devices?
           ),
       _enterNewObservationRow(),
-      Expanded(
-          child: ListView(
-        children: _renderObservations(),
-      )),
+      Expanded(child: _renderObservations()),
     ]);
   }
 
-  List<Widget> _renderObservations() {
+  BoxScrollView _renderObservations() {
     List<Widget> widgets = [];
 
     for (var observation in _observations) {
+      widgets.add(Text(
+        hhmmss.format(observation.timestamp),
+        textAlign: TextAlign.right,
+      ));
+
       // FIXME: Bold the position
       widgets.add(Text(
-        "${hhmmss.format(observation.timestamp)} | ${observation.position}",
-        textAlign: TextAlign.center,
+        observation.position.toString(),
+        textAlign: TextAlign.left,
       ));
     }
 
-    return widgets;
+    return GridView.count(
+      crossAxisCount: 2,
+      crossAxisSpacing: 10,
+      children: widgets,
+    );
   }
 
   Widget _enterNewObservationRow() {
