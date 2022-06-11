@@ -1,4 +1,4 @@
-name: test-my-app
+name: run-flutter-test
 on: [push]
 jobs:
   run-flutter-test:

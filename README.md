@@ -1,3 +1,5 @@
+<a href="https://github.com/walles/waitinator/actions"><img src="https://github.com/walles/waitinator/workflows/run-flutter-test/badge.svg" alt="Build Status"></a>
+
 # Waitinator
 
 Are we there yet?
