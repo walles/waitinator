@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:waitinator/estimate.dart';
+import 'estimate.dart';
 
 void main() {
   test('Estimate.toString() nicely renders an upcoming ETA', () {

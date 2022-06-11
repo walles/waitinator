@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:waitinator/eta_screen.dart';
-import 'package:waitinator/screen_wrapper.dart';
+
+import 'eta_screen.dart';
+import 'screen_wrapper.dart';
 
 void main() {
   runApp(const MaterialApp(

@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:waitinator/estimate.dart';
-import 'package:waitinator/screen_wrapper.dart';
 import 'package:intl/intl.dart';
+
+import 'observation.dart';
+import 'compute_estimate.dart';
+import 'estimate.dart';
+import 'screen_wrapper.dart';
 
 class EtaScreen extends StatefulWidget {
   final int _target;
@@ -21,7 +24,8 @@ class EtaScreen extends StatefulWidget {
 
 class _EtaScreenState extends State<EtaScreen> {
   int _target = 0;
-  final List<_Observation> _observations = [];
+  final List<Observation> _observations = [];
+  Estimate? _estimate;
 
   final _hhmmss = DateFormat.Hms();
   final _newObservationController = TextEditingController();
@@ -31,7 +35,7 @@ class _EtaScreenState extends State<EtaScreen> {
   void initState() {
     super.initState();
     _target = widget._target;
-    _observations.add(_Observation(DateTime.now(), widget._firstObservation));
+    _observations.add(Observation(DateTime.now(), widget._firstObservation));
 
     // Tick the _currentTimeText() rendering
     Timer.periodic(
@@ -40,19 +44,21 @@ class _EtaScreenState extends State<EtaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: Compute this estimate, don't just hardcode it a bit into the future
-    final estimate = Estimate(
-        _observations[0].timestamp,
-        DateTime.now().add(const Duration(minutes: 13)),
-        DateTime.now().add(const Duration(minutes: 23)),
-        _target);
+    final Text estimateWidget;
+    if (_estimate == null) {
+      estimateWidget = const Text(""
+          "Need more observations.\n"
+          "\n"
+          "Enter the next position once you get there and I'll start calculating!");
+    } else {
+      estimateWidget = Text(
+        _estimate.toString(),
+        textAlign: TextAlign.right,
+      );
+    }
 
     return ScreenWrapper(<Widget>[
-      Flexible(
-          child: Text(
-        estimate.toString(),
-        textAlign: TextAlign.right,
-      )),
+      Flexible(child: estimateWidget),
       const SizedBox(
           height:
               20 // FIXME: What is the unit here? How will this look on different devices?
@@ -136,7 +142,8 @@ class _EtaScreenState extends State<EtaScreen> {
         }
 
         setState(() {
-          _observations.add(_Observation(DateTime.now(), number));
+          _observations.add(Observation(DateTime.now(), number));
+          _estimate = estimate(_observations, _target);
         });
 
         _newObservationController.clear();
@@ -151,12 +158,4 @@ class _EtaScreenState extends State<EtaScreen> {
       textAlign: TextAlign.right,
     );
   }
-}
-
-class _Observation {
-  final DateTime timestamp;
-  final int position;
-
-  // FIXME: Should we validate the input here?
-  _Observation(this.timestamp, this.position);
 }
