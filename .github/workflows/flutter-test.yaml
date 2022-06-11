@@ -1,0 +1,12 @@
+name: test-my-app
+on: [push]
+jobs:
+  run-flutter-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.0.1'
+          channel: 'stable'
+      - run: flutter test
