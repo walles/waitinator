@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:waitinator/screen_wrapper.dart';
@@ -26,6 +28,10 @@ class _EtaScreenState extends State<EtaScreen> {
     super.initState();
     _target = widget._target;
     _observations.add(_Observation(DateTime.now(), widget._firstObservation));
+
+    // Tick the _currentTimeText() rendering
+    Timer.periodic(
+        const Duration(milliseconds: 500), (Timer t) => setState(() {}));
   }
 
   @override
@@ -52,21 +58,14 @@ class _EtaScreenState extends State<EtaScreen> {
     var examplePosition =
         (_target < lastPosition) ? lastPosition - 1 : lastPosition + 1;
     // FIXME: Disable this box if we're too close to the target
-    // FIXME: Put current time ticking on the left of this TextField
     // FIXME: On Enter, add new observation to our list
 
     List<Widget> widgets = [
-      const Align(
-          alignment: Alignment.bottomRight,
-          child: Text(
-            // FIXME: Keep this ticking so it displays the current time
-            "12:34:56",
-            textAlign: TextAlign.right,
-          )),
+      Align(alignment: Alignment.centerRight, child: _currentTimeText()),
       TextField(
         decoration: InputDecoration(
           labelText: "Updated position",
-          hintText: examplePosition.toString(),
+          hintText: "Example: $examplePosition",
         ),
         keyboardType: TextInputType.number,
         autofocus: true,
@@ -99,6 +98,14 @@ class _EtaScreenState extends State<EtaScreen> {
       shrinkWrap: true,
       childAspectRatio: 3.0,
       children: widgets,
+    );
+  }
+
+  Text _currentTimeText() {
+    // This is kept ticking using the Timer.periodic() call in initState()
+    return Text(
+      hhmmss.format(DateTime.now()),
+      textAlign: TextAlign.right,
     );
   }
 }
