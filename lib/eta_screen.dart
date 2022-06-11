@@ -62,7 +62,7 @@ class _EtaScreenState extends State<EtaScreen> {
       _newObservationEntry(),
     ];
 
-    for (var observation in _observations) {
+    for (final observation in _observations) {
       widgets.add(Align(
         alignment: Alignment.centerRight,
         child: Text(
@@ -91,8 +91,8 @@ class _EtaScreenState extends State<EtaScreen> {
   }
 
   TextField _newObservationEntry() {
-    var lastPosition = _observations.last.position;
-    var examplePosition =
+    final lastPosition = _observations.last.position;
+    final examplePosition =
         (_target < lastPosition) ? lastPosition - 1 : lastPosition + 1;
     // FIXME: Disable this box if we're too close to the target
 
@@ -117,15 +117,24 @@ class _EtaScreenState extends State<EtaScreen> {
           return;
         }
 
-        // FIXME: Do more input validation here? Are we even in range? Add an
-        // error box to our TextField if validation fails?
+        // FIXME: How do we surface these validation results to the user?
+        final number = int.parse(value);
+        if (lastPosition < _target && number <= lastPosition) {
+          // Counting up, but the new observation is lower than the last
+          _newObservationFocus.requestFocus();
+          return;
+        }
+        if (_target < lastPosition && number >= lastPosition) {
+          // Counting down, but the new observation is higher than the last
+          _newObservationFocus.requestFocus();
+          return;
+        }
 
         setState(() {
-          _observations.add(_Observation(DateTime.now(), int.parse(value)));
+          _observations.add(_Observation(DateTime.now(), number));
         });
 
         _newObservationController.clear();
-        _newObservationFocus.requestFocus();
       },
     );
   }
