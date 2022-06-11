@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:waitinator/estimator.dart';
 import 'package:waitinator/screen_wrapper.dart';
 import 'package:intl/intl.dart';
 
@@ -39,13 +40,14 @@ class _EtaScreenState extends State<EtaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // FIXME: Compute this estimate, don't just hardcode it a bit into the future
+    final estimate = Estimate(DateTime.now().add(const Duration(minutes: 13)),
+        DateTime.now().add(const Duration(minutes: 23)), _target);
+
     return ScreenWrapper(<Widget>[
       Flexible(
           child: Text(
-        "You will get to $_target in\n"
-        "between 13min, 12:34\n"
-        "and 23min, 12:44\n"
-        "for a total queue time of 17-27min",
+        estimate.toString(),
         textAlign: TextAlign.right,
       )),
       const SizedBox(
