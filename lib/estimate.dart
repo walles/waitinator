@@ -21,7 +21,11 @@ class Estimate {
   String toString() {
     final now = _now ?? DateTime.now();
 
-    // FIXME: What if we're already there? Or inside the earliest-latest span?
+    if (earliest.isBefore(now) && now.isBefore(latest)) {
+      return _toInBetweenString(now);
+    }
+
+    // FIXME: What if we're already there?
 
     final remainingLow = earliest.difference(now);
     final remainingHigh = latest.difference(now);
@@ -31,6 +35,14 @@ class Estimate {
         "between ${_renderDuration(remainingLow)}, ${_hhmm.format(earliest)}\n"
         "and ${_renderDuration(remainingHigh)}, ${_hhmm.format(latest)}\n"
         "for a total queue time of ${_renderDuration(totalLow)}-${_renderDuration(totalHigh)}";
+  }
+
+  String _toInBetweenString(DateTime now) {
+    final remaining = latest.difference(now);
+    final total = latest.difference(startedQueueing);
+    return "You will get to $_target in\n"
+        "${_renderDuration(remaining)}, ${_hhmm.format(latest)}\n"
+        "for a total queue time of ${_renderDuration(total)}";
   }
 
   String _renderDuration(Duration duration) {
