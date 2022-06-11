@@ -25,7 +25,9 @@ class Estimate {
       return _toInBetweenString(now);
     }
 
-    // FIXME: What if we're already there?
+    if (!now.isBefore(latest)) {
+      return _toAfterString(now);
+    }
 
     final remainingLow = earliest.difference(now);
     final remainingHigh = latest.difference(now);
@@ -41,7 +43,15 @@ class Estimate {
     final remaining = latest.difference(now);
     final total = latest.difference(startedQueueing);
     return "You will get to $_target in\n"
-        "${_renderDuration(remaining)}, ${_hhmm.format(latest)}\n"
+        "${_renderDuration(remaining)}, at ${_hhmm.format(latest)}\n"
+        "for a total queue time of ${_renderDuration(total)}";
+  }
+
+  String _toAfterString(DateTime now) {
+    final ago = now.difference(latest);
+    final total = latest.difference(startedQueueing);
+    return "You should have arrived at $_target\n"
+        "${_renderDuration(ago)} ago, at ${_hhmm.format(latest)}\n"
         "for a total queue time of ${_renderDuration(total)}";
   }
 
