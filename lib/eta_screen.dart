@@ -21,7 +21,8 @@ class EtaScreen extends StatefulWidget {
 class _EtaScreenState extends State<EtaScreen> {
   int _target = 0;
   final List<_Observation> _observations = [];
-  final hhmmss = DateFormat.Hms();
+  final _hhmmss = DateFormat.Hms();
+  final _newObservationController = TextEditingController();
 
   @override
   void initState() {
@@ -63,7 +64,7 @@ class _EtaScreenState extends State<EtaScreen> {
       widgets.add(Align(
         alignment: Alignment.centerRight,
         child: Text(
-          hhmmss.format(observation.timestamp),
+          _hhmmss.format(observation.timestamp),
           textAlign: TextAlign.right,
         ),
       ));
@@ -92,9 +93,9 @@ class _EtaScreenState extends State<EtaScreen> {
     var examplePosition =
         (_target < lastPosition) ? lastPosition - 1 : lastPosition + 1;
     // FIXME: Disable this box if we're too close to the target
-    // FIXME: On Enter, add new observation to our list
 
     return TextField(
+      controller: _newObservationController,
       decoration: InputDecoration(
         labelText: "Updated position",
         hintText: "Example: $examplePosition",
@@ -117,8 +118,9 @@ class _EtaScreenState extends State<EtaScreen> {
           _observations.add(_Observation(DateTime.now(), int.parse(value)));
         });
 
+        _newObservationController.clear();
+
         // FIXME: Refocus this field
-        // FIXME: Clear this field
       },
     );
   }
@@ -126,7 +128,7 @@ class _EtaScreenState extends State<EtaScreen> {
   Text _currentTimeText() {
     // This is kept ticking using the Timer.periodic() call in initState()
     return Text(
-      hhmmss.format(DateTime.now()),
+      _hhmmss.format(DateTime.now()),
       textAlign: TextAlign.right,
     );
   }
