@@ -22,7 +22,9 @@ class _EtaScreenState extends State<EtaScreen> {
   int _target = 0;
   final List<_Observation> _observations = [];
   final _hhmmss = DateFormat.Hms();
+
   final _newObservationController = TextEditingController();
+  final _newObservationFocus = FocusNode();
 
   @override
   void initState() {
@@ -96,6 +98,7 @@ class _EtaScreenState extends State<EtaScreen> {
 
     return TextField(
       controller: _newObservationController,
+      focusNode: _newObservationFocus,
       decoration: InputDecoration(
         labelText: "Updated position",
         hintText: "Example: $examplePosition",
@@ -114,13 +117,15 @@ class _EtaScreenState extends State<EtaScreen> {
           return;
         }
 
+        // FIXME: Do more input validation here? Are we even in range? Add an
+        // error box to our TextField if validation fails?
+
         setState(() {
           _observations.add(_Observation(DateTime.now(), int.parse(value)));
         });
 
         _newObservationController.clear();
-
-        // FIXME: Refocus this field
+        _newObservationFocus.requestFocus();
       },
     );
   }
