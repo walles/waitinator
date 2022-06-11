@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:waitinator/estimator.dart';
+import 'package:waitinator/estimate.dart';
 import 'package:waitinator/screen_wrapper.dart';
 import 'package:intl/intl.dart';
 

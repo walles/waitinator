@@ -4,17 +4,22 @@ class Estimate {
   final DateTime startedQueueing;
   final DateTime earliest;
   final DateTime latest;
+  final DateTime? _now;
   final int _target;
 
   final _hhmm = DateFormat.Hm();
 
-  /// The [startedQueueing] parameter is when the user first entered the queue
-  Estimate(this.startedQueueing, this.earliest, this.latest, this._target);
+  /// The [startedQueueing] parameter is when the user first entered the queue.
+  /// The [now] parameter overrides using DateTime.now() in toString(), and is
+  /// used in testing.
+  Estimate(this.startedQueueing, this.earliest, this.latest, this._target,
+      {DateTime? now})
+      : _now = now;
 
   /// Returns a multiline description on when this will happen
   @override
   String toString() {
-    final now = DateTime.now();
+    final now = _now ?? DateTime.now();
 
     // FIXME: What if we're already there? Or inside the earliest-latest span?
 

@@ -14,6 +14,7 @@ Ref: <https://docs.flutter.dev/>
 # TODO
 
 - Estimate time to arrival
+- Run all tests in CI
 - Publish to Github pages
 - Set up CI that publishes to Github pages
 - Don't crash when going to the second screen and then back to the first screen
