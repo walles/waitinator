@@ -22,8 +22,8 @@ class EtaScreen extends StatefulWidget {
 class _EtaScreenState extends State<EtaScreen> {
   int _target = 0;
   final List<_Observation> _observations = [];
-  final _hhmmss = DateFormat.Hms();
 
+  final _hhmmss = DateFormat.Hms();
   final _newObservationController = TextEditingController();
   final _newObservationFocus = FocusNode();
 
@@ -41,8 +41,11 @@ class _EtaScreenState extends State<EtaScreen> {
   @override
   Widget build(BuildContext context) {
     // FIXME: Compute this estimate, don't just hardcode it a bit into the future
-    final estimate = Estimate(DateTime.now().add(const Duration(minutes: 13)),
-        DateTime.now().add(const Duration(minutes: 23)), _target);
+    final estimate = Estimate(
+        _observations[0].timestamp,
+        DateTime.now().add(const Duration(minutes: 13)),
+        DateTime.now().add(const Duration(minutes: 23)),
+        _target);
 
     return ScreenWrapper(<Widget>[
       Flexible(
