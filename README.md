@@ -13,10 +13,12 @@ Ref: <https://docs.flutter.dev/>
 
 # TODO
 
-- Enable adding queue position observations on the ETA screen
 - Estimate time to arrival
 - Publish to Github pages
 - Set up CI that publishes to Github pages
+- Don't crash when going to the second screen and then back to the first screen
+  again. Right now we crash on the periodic 0.5s timer.
+- Make the enter-new-observations setup nicer and more obvious
 - Make an icon
 - Enable removing / correcting observations
 - Preserve state even on page reloads
@@ -29,3 +31,4 @@ Ref: <https://docs.flutter.dev/>
 - Finish initial screen
 - Add a button for getting to the ETA screen once the initial screen has been
   properly filled in by the user
+- Enable adding queue position observations on the ETA screen

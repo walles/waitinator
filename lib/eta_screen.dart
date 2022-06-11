@@ -54,41 +54,27 @@ class _EtaScreenState extends State<EtaScreen> {
   }
 
   BoxScrollView _renderObservations() {
-    var lastPosition = _observations.last.position;
-    var examplePosition =
-        (_target < lastPosition) ? lastPosition - 1 : lastPosition + 1;
-    // FIXME: Disable this box if we're too close to the target
-    // FIXME: On Enter, add new observation to our list
-
     List<Widget> widgets = [
       Align(alignment: Alignment.centerRight, child: _currentTimeText()),
-      TextField(
-        decoration: InputDecoration(
-          labelText: "Updated position",
-          hintText: "Example: $examplePosition",
-        ),
-        keyboardType: TextInputType.number,
-        autofocus: true,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly,
-
-          // I don't expect more than three digits really, but if we allow up
-          // to 5 we shouldn't be limiting anybody.
-          LengthLimitingTextInputFormatter(5),
-        ],
-      )
+      _newObservationEntry(),
     ];
 
     for (var observation in _observations) {
-      widgets.add(Text(
-        hhmmss.format(observation.timestamp),
-        textAlign: TextAlign.right,
+      widgets.add(Align(
+        alignment: Alignment.centerRight,
+        child: Text(
+          hhmmss.format(observation.timestamp),
+          textAlign: TextAlign.right,
+        ),
       ));
 
       // FIXME: Bold the position
-      widgets.add(Text(
-        observation.position.toString(),
-        textAlign: TextAlign.left,
+      widgets.add(Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          observation.position.toString(),
+          textAlign: TextAlign.left,
+        ),
       ));
     }
 
@@ -98,6 +84,42 @@ class _EtaScreenState extends State<EtaScreen> {
       shrinkWrap: true,
       childAspectRatio: 3.0,
       children: widgets,
+    );
+  }
+
+  TextField _newObservationEntry() {
+    var lastPosition = _observations.last.position;
+    var examplePosition =
+        (_target < lastPosition) ? lastPosition - 1 : lastPosition + 1;
+    // FIXME: Disable this box if we're too close to the target
+    // FIXME: On Enter, add new observation to our list
+
+    return TextField(
+      decoration: InputDecoration(
+        labelText: "Updated position",
+        hintText: "Example: $examplePosition",
+      ),
+      keyboardType: TextInputType.number,
+      autofocus: true,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
+
+        // I don't expect more than three digits really, but if we allow up
+        // to 5 we shouldn't be limiting anybody.
+        LengthLimitingTextInputFormatter(5),
+      ],
+      onSubmitted: (String value) {
+        if (value.isEmpty) {
+          return;
+        }
+
+        setState(() {
+          _observations.add(_Observation(DateTime.now(), int.parse(value)));
+        });
+
+        // FIXME: Refocus this field
+        // FIXME: Clear this field
+      },
     );
   }
 
