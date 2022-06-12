@@ -15,9 +15,9 @@ Ref: <https://docs.flutter.dev/>
 
 # TODO
 
-- Estimate time to arrival
 - Publish to Github pages
 - Set up CI that publishes to Github pages
+- Bold the lower bound time left number
 - Don't crash when going to the second screen and then back to the first screen
   again. Right now we crash on the periodic 0.5s timer.
 - Make the enter-new-observations setup nicer and more obvious
@@ -35,3 +35,4 @@ Ref: <https://docs.flutter.dev/>
   properly filled in by the user
 - Enable adding queue position observations on the ETA screen
 - Run all tests in CI
+- Estimate time to arrival
