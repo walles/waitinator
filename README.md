@@ -20,7 +20,6 @@ Ref: <https://docs.flutter.dev/>
 # TODO
 
 - Add a version / build number somewhere in the UI
-- Add source code link somewhere in the UI
 - Bold the lower bound time left number
 - Don't crash when going to the second screen and then back to the first screen
   again. Right now we crash on the periodic 0.5s timer.
@@ -41,3 +40,4 @@ Ref: <https://docs.flutter.dev/>
 - Estimate time to arrival
 - Publish to Github pages
 - Set up CI that publishes to Github pages
+- Add source code link somewhere in the UI
