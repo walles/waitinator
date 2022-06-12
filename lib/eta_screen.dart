@@ -58,7 +58,7 @@ class _EtaScreenState extends State<EtaScreen> {
     }
 
     return ScreenWrapper(<Widget>[
-      Flexible(child: estimateWidget),
+      estimateWidget,
       const SizedBox(
           height:
               20 // FIXME: What is the unit here? How will this look on different devices?
@@ -67,7 +67,7 @@ class _EtaScreenState extends State<EtaScreen> {
     ]);
   }
 
-  BoxScrollView _renderObservations() {
+  Widget _renderObservations() {
     List<Widget> widgets = [
       Align(alignment: Alignment.centerRight, child: _currentTimeText()),
       _newObservationEntry(),
@@ -92,12 +92,14 @@ class _EtaScreenState extends State<EtaScreen> {
       ));
     }
 
-    return GridView.count(
-      crossAxisCount: 2,
-      crossAxisSpacing: 10,
-      shrinkWrap: true,
-      childAspectRatio: 3.0,
-      children: widgets,
+    return Expanded(
+      child: GridView.count(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        shrinkWrap: true,
+        childAspectRatio: 3.0,
+        children: widgets,
+      ),
     );
   }
 

@@ -19,6 +19,7 @@ Ref: <https://docs.flutter.dev/>
 
 # TODO
 
+- Make the ETA screen input box not look like crap in Firefox on Android
 - Make an icon
 - Render to an Android app and install on my phone
 - Bold the lower bound time left number
@@ -41,3 +42,4 @@ Ref: <https://docs.flutter.dev/>
 - Publish to Github pages
 - Set up CI that publishes to Github pages
 - Add source code link somewhere in the UI
+- Test on a very low display (think phone web browser in landscape mode)
