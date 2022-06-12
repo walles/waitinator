@@ -73,7 +73,7 @@ class _EtaScreenState extends State<EtaScreen> {
       _newObservationEntry(),
     ];
 
-    for (final observation in _observations) {
+    for (final observation in _observations.reversed) {
       widgets.add(Align(
         alignment: Alignment.centerRight,
         child: Text(
