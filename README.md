@@ -1,4 +1,4 @@
-<a href="https://github.com/walles/waitinator/actions"><img src="https://github.com/walles/waitinator/workflows/run-flutter-test/badge.svg" alt="Build Status"></a>
+<a href="https://github.com/walles/waitinator/actions"><img src="https://github.com/walles/waitinator/workflows/test-and-deploy/badge.svg" alt="Build Status"></a>
 
 # Waitinator
 
@@ -17,6 +17,8 @@ Ref: <https://docs.flutter.dev/>
 
 - Publish to Github pages
 - Set up CI that publishes to Github pages
+- Render to an Android app and install on my phone
+- Add a version / build number somewhere in the UI
 - Bold the lower bound time left number
 - Don't crash when going to the second screen and then back to the first screen
   again. Right now we crash on the periodic 0.5s timer.
@@ -24,7 +26,6 @@ Ref: <https://docs.flutter.dev/>
 - Make an icon
 - Enable removing / correcting observations
 - Preserve state even on page reloads
-- Make sure we can go back from the ETA screen
 - Add a reset button somewhere?
 - Adapt app theme to system theme setting: <https://thiagoevoa.medium.com/change-flutter-app-theme-according-to-the-system-theme-mode-c4a63d05128f>
 

@@ -1,0 +1,22 @@
+name: test-and-deploy
+on: [push]
+jobs:
+  run-flutter-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.0.1'
+          channel: 'stable'
+      - run: flutter test
+  deploy-to-gh-pages:
+    runs-on: ubuntu-latest
+    needs: run-flutter-test
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+      - uses: bluefireteam/flutter-gh-pages@v7
+        with:
+          baseHref: /waitinator/
