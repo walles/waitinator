@@ -23,7 +23,10 @@ class ScreenWrapper extends StatelessWidget {
                 context: context,
                 applicationLegalese: "© 2022 johan.walles@gmail.com",
                 children: [
-                  _infoText(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _infoText(),
+                  ),
                 ]);
           },
           tooltip: 'About',
