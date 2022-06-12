@@ -147,6 +147,7 @@ class _EtaScreenState extends State<EtaScreen> {
         });
 
         _newObservationController.clear();
+        _newObservationFocus.requestFocus();
       },
     );
   }

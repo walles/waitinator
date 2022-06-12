@@ -12,8 +12,8 @@ void main() {
     expect(
         estimate.toString(),
         equals('You will get to 200 in\n'
-            'between 4min, 12:39\n'
-            'and 7min, 12:42\n'
+            'between 4min, at 12:39\n'
+            'and 7min, at 12:42\n'
             'for a total queue time of 5min-8min'));
   });
 

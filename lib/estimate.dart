@@ -34,8 +34,8 @@ class Estimate {
     final totalLow = earliest.difference(startedQueueing);
     final totalHigh = latest.difference(startedQueueing);
     return "You will get to $_target in\n"
-        "between ${_renderDuration(remainingLow)}, ${_hhmm.format(earliest)}\n"
-        "and ${_renderDuration(remainingHigh)}, ${_hhmm.format(latest)}\n"
+        "between ${_renderDuration(remainingLow)}, at ${_hhmm.format(earliest)}\n"
+        "and ${_renderDuration(remainingHigh)}, at ${_hhmm.format(latest)}\n"
         "for a total queue time of ${_renderDuration(totalLow)}-${_renderDuration(totalHigh)}";
   }
 
