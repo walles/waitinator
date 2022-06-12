@@ -1,6 +1,10 @@
 <a href="https://github.com/walles/waitinator/actions"><img src="https://github.com/walles/waitinator/workflows/test-and-deploy/badge.svg" alt="Build Status"></a>
 
-# Waitinator
+# [Waitinator](https://walles.github.io/waitinator/)
+
+Try it here: <https://walles.github.io/waitinator/>
+
+---
 
 Are we there yet?
 
@@ -15,15 +19,13 @@ Ref: <https://docs.flutter.dev/>
 
 # TODO
 
-- Publish to Github pages
-- Set up CI that publishes to Github pages
-- Render to an Android app and install on my phone
 - Add a version / build number somewhere in the UI
+- Add source code link somewhere in the UI
 - Bold the lower bound time left number
 - Don't crash when going to the second screen and then back to the first screen
   again. Right now we crash on the periodic 0.5s timer.
-- Make the enter-new-observations setup nicer and more obvious
 - Make an icon
+- Render to an Android app and install on my phone
 - Enable removing / correcting observations
 - Preserve state even on page reloads
 - Add a reset button somewhere?
@@ -37,3 +39,5 @@ Ref: <https://docs.flutter.dev/>
 - Enable adding queue position observations on the ETA screen
 - Run all tests in CI
 - Estimate time to arrival
+- Publish to Github pages
+- Set up CI that publishes to Github pages
