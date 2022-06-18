@@ -4,6 +4,9 @@
 
 Try it here: <https://walles.github.io/waitinator/>
 
+Icon source in the [icon](icon) directory. If you want to change the icon then
+first edit the source there, then render it and update all the icon files.
+
 ---
 
 Are we there yet?
