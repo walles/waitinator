@@ -22,8 +22,10 @@ Ref: <https://docs.flutter.dev/>
 
 # TODO
 
+- Enable entering multiple identical observations. I wanted to do that when I
+  was on the phone and got to hear "your place is number 19" over and over.
+- Hint user to provide more observations if the two ETAs are "too far" apart
 - Make the ETA screen input box not look like crap in Firefox on Android
-- Make an icon
 - Render to an Android app and install on my phone
 - Bold the lower bound time left number
 - Don't crash when going to the second screen and then back to the first screen
@@ -46,3 +48,4 @@ Ref: <https://docs.flutter.dev/>
 - Set up CI that publishes to Github pages
 - Add source code link somewhere in the UI
 - Test on a very low display (think phone web browser in landscape mode)
+- Make an icon
