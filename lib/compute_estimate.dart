@@ -1,14 +1,47 @@
 import 'dart:math';
 
+import 'package:meta/meta.dart';
 import 'estimate.dart';
 import 'observation.dart';
 
 const _percentile = 90;
 const _samples = 100;
 
-Estimate estimate(List<Observation> observations, int target) {
+/// Gets the last observation. If there are multiple observations at the end
+/// with the same number though, pick the first of those.
+///
+/// This way our estimation algorithm of considering any observation being up to
+/// almost one number off will still work. If we took the latest ones, that
+/// won't hold any more.
+@visibleForTesting
+Observation? getLastObservation(List<Observation> observations) {
+  if (observations.length < 2) {
+    return null;
+  }
+
+  var lastIndex = observations.length - 1;
+  while (true) {
+    var nextToLastIndex = lastIndex - 1;
+    if (nextToLastIndex < 0) {
+      return null;
+    }
+
+    if (observations[nextToLastIndex].position !=
+        observations[lastIndex].position) {
+      return observations[lastIndex];
+    }
+
+    lastIndex--;
+  }
+}
+
+Estimate? estimate(List<Observation> observations, int target) {
   final first = observations[0];
-  final last = observations.last;
+  final last = getLastObservation(observations);
+  if (last == null) {
+    return null;
+  }
+
   final firstLastDtMillis =
       last.timestamp.difference(first.timestamp).inMilliseconds;
   final direction = first.position < target ? 1 : -1;

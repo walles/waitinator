@@ -132,12 +132,12 @@ class _EtaScreenState extends State<EtaScreen> {
 
         // FIXME: How do we surface these validation results to the user?
         final number = int.parse(value);
-        if (lastPosition < _target && number <= lastPosition) {
+        if (lastPosition < _target && number < lastPosition) {
           // Counting up, but the new observation is lower than the last
           _newObservationFocus.requestFocus();
           return;
         }
-        if (_target < lastPosition && number >= lastPosition) {
+        if (_target < lastPosition && number > lastPosition) {
           // Counting down, but the new observation is higher than the last
           _newObservationFocus.requestFocus();
           return;
