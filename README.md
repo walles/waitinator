@@ -22,7 +22,6 @@ Ref: <https://docs.flutter.dev/>
 
 # TODO
 
-- Render to an Android app and install on my phone
 - Make a compliant Android icon
 - Don't crash when going to the second screen and then back to the first screen
   again. Right now we crash on the periodic 0.5s timer.
@@ -51,3 +50,4 @@ Ref: <https://docs.flutter.dev/>
 - Make an icon
 - Enable entering multiple identical observations. I wanted to do that when I
   was on the phone and got to hear "your place is number 19" over and over.
+- Render to an Android app
