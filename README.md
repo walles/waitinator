@@ -22,17 +22,19 @@ Ref: <https://docs.flutter.dev/>
 
 # TODO
 
-- Hint user to provide more observations if the two ETAs are "too far" apart
-- Make the ETA screen input box not look like crap in Firefox on Android
 - Render to an Android app and install on my phone
-- Bold the lower bound time left number
+- Make a compliant Android icon
 - Don't crash when going to the second screen and then back to the first screen
   again. Right now we crash on the periodic 0.5s timer.
+- Add a reset button somewhere?
+- Add a version / build number somewhere in the UI, verify on both web and
+  Android
+- Hint user to provide more observations if the two ETAs are "too far" apart
+- Make the ETA screen input box not look like crap in Firefox on Android
+- Bold the lower bound time left number
 - Enable removing / correcting observations
 - Preserve state even on page reloads
-- Add a reset button somewhere?
 - Adapt app theme to system theme setting: <https://thiagoevoa.medium.com/change-flutter-app-theme-according-to-the-system-theme-mode-c4a63d05128f>
-- Add a version / build number somewhere in the UI
 
 ## Done
 
