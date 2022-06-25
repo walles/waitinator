@@ -22,7 +22,6 @@ Ref: <https://docs.flutter.dev/>
 
 # TODO
 
-- Make a compliant Android icon
 - Don't crash when going to the second screen and then back to the first screen
   again. Right now (on web) we crash on the periodic 0.5s timer.
 - Add a reset button somewhere?
@@ -37,6 +36,7 @@ Ref: <https://docs.flutter.dev/>
 - Bold the lower bound time left number
 - Enable removing / correcting observations
 - Preserve state even on page reloads
+- Use some kind of variable for the `flutter-version` in [our CI GitHub action](/.github/workflows/test-and-deploy.yaml)
 - Adapt app theme to system theme setting: <https://thiagoevoa.medium.com/change-flutter-app-theme-according-to-the-system-theme-mode-c4a63d05128f>
 
 ## Done
@@ -55,3 +55,4 @@ Ref: <https://docs.flutter.dev/>
 - Enable entering multiple identical observations. I wanted to do that when I
   was on the phone and got to hear "your place is number 19" over and over.
 - Render to an Android app
+- Make a compliant Android icon
