@@ -20,6 +20,14 @@ Use case:
 
 Ref: <https://docs.flutter.dev/>
 
+# Color Theme
+
+The color theme of the app has to be set in a number of different places:
+
+- The [icon](icon/)
+- In [`main.dart`](lib/main.dart), as `primary: Color(...)`
+- The `theme_color` in [`web/manifest.json`](web/manifest.json)
+
 # TODO
 
 - Don't crash when going to the second screen and then back to the first screen

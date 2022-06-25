@@ -5,10 +5,13 @@ import 'eta_screen.dart';
 import 'screen_wrapper.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    title: "Waitinator",
-    home: WaitinatorApp(),
-  ));
+  runApp(MaterialApp(
+      title: "Waitinator",
+      home: const WaitinatorApp(),
+
+      // Ref: https://stackoverflow.com/a/71136199/473672
+      theme: ThemeData(
+          colorScheme: const ColorScheme.light(primary: Color(0xff0175C2)))));
 }
 
 class WaitinatorApp extends StatefulWidget {

@@ -3,7 +3,7 @@
     "short_name": "waitinator",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
+    "background_color": "#ffffff",
     "theme_color": "#0175C2",
     "description": "Are we there yet?",
     "orientation": "portrait-primary",
