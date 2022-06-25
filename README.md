@@ -20,7 +20,7 @@ Use case:
 
 Ref: <https://docs.flutter.dev/>
 
-# Color Theme
+## Color Theme
 
 The color theme of the app has to be set in a number of different places:
 
@@ -28,13 +28,11 @@ The color theme of the app has to be set in a number of different places:
 - In [`main.dart`](lib/main.dart), as `primary: Color(...)`
 - The `theme_color` in [`web/manifest.json`](web/manifest.json)
 
-# TODO
+## TODO
 
 - Don't crash when going to the second screen and then back to the first screen
   again. Right now (on web) we crash on the periodic 0.5s timer.
 - Add a reset button somewhere?
-- Make the icon's "i" match the theme blue color, and the various icon
-  backgrounds on web and Android white
 - Add a version / build number on the info screen, verify on both web and
   Android
 - Hint user to provide more observations if the two ETAs are "too far" apart
@@ -48,7 +46,7 @@ The color theme of the app has to be set in a number of different places:
 - Test on Android Dark Mode, then possibly adapt app theme to system theme setting:
   <https://thiagoevoa.medium.com/change-flutter-app-theme-according-to-the-system-theme-mode-c4a63d05128f>
 
-## Done
+### Done
 
 - Finish initial screen
 - Add a button for getting to the ETA screen once the initial screen has been
@@ -65,3 +63,5 @@ The color theme of the app has to be set in a number of different places:
   was on the phone and got to hear "your place is number 19" over and over.
 - Render to an Android app
 - Make a compliant Android icon
+- Make the icon's "i" match the theme blue color, and the various icon
+  backgrounds on web and Android white
