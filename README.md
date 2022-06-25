@@ -24,12 +24,16 @@ Ref: <https://docs.flutter.dev/>
 
 - Make a compliant Android icon
 - Don't crash when going to the second screen and then back to the first screen
-  again. Right now we crash on the periodic 0.5s timer.
+  again. Right now (on web) we crash on the periodic 0.5s timer.
 - Add a reset button somewhere?
-- Add a version / build number somewhere in the UI, verify on both web and
+- Make the icon's "i" match the theme blue color, and the various icon
+  backgrounds on web and Android white
+- Add a version / build number on the info screen, verify on both web and
   Android
 - Hint user to provide more observations if the two ETAs are "too far" apart
-- Make the ETA screen input box not look like crap in Firefox on Android
+- Make the ETA screen input box not look like crap in Firefox on Android. Can be
+  reproduced using Chrome on a computer with mobile emulation mode and a narrow
+  enough screen.
 - Bold the lower bound time left number
 - Enable removing / correcting observations
 - Preserve state even on page reloads
