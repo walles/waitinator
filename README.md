@@ -25,7 +25,7 @@ Ref: <https://docs.flutter.dev/>
 The color theme of the app has to be set in a number of different places:
 
 - The [icon](icon/)
-- In [`main.dart`](lib/main.dart), as `primary: Color(...)`
+- In [`main.dart`](lib/main.dart), in `baseColor`
 - The `theme_color` in [`web/manifest.json`](web/manifest.json)
 
 ## TODO
@@ -43,8 +43,6 @@ The color theme of the app has to be set in a number of different places:
 - Enable removing / correcting observations
 - Preserve state even on page reloads
 - Use some kind of variable for the `flutter-version` in [our CI GitHub action](/.github/workflows/test-and-deploy.yaml)
-- Test on Android Dark Mode, then possibly adapt app theme to system theme setting:
-  <https://thiagoevoa.medium.com/change-flutter-app-theme-according-to-the-system-theme-mode-c4a63d05128f>
 
 ### Done
 
@@ -65,3 +63,4 @@ The color theme of the app has to be set in a number of different places:
 - Make a compliant Android icon
 - Make the icon's "i" match the theme blue color, and the various icon
   backgrounds on web and Android white
+- Add dark mode support, tested on web and Android
