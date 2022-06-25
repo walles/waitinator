@@ -37,7 +37,8 @@ Ref: <https://docs.flutter.dev/>
 - Enable removing / correcting observations
 - Preserve state even on page reloads
 - Use some kind of variable for the `flutter-version` in [our CI GitHub action](/.github/workflows/test-and-deploy.yaml)
-- Adapt app theme to system theme setting: <https://thiagoevoa.medium.com/change-flutter-app-theme-according-to-the-system-theme-mode-c4a63d05128f>
+- Test on Android Dark Mode, then possibly adapt app theme to system theme setting:
+  <https://thiagoevoa.medium.com/change-flutter-app-theme-according-to-the-system-theme-mode-c4a63d05128f>
 
 ## Done
 
