@@ -35,7 +35,7 @@ class ScreenWrapper extends StatelessWidget {
       body: Container(
         alignment: Alignment.center,
         child: Container(
-            padding: const EdgeInsets.all(40.0),
+            padding: const EdgeInsets.all(20.0),
             constraints: const BoxConstraints(
                 maxWidth:
                     400 // FIXME: What is the unit here? How will this look on different devices?
