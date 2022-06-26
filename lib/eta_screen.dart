@@ -93,6 +93,8 @@ class _EtaScreenState extends State<EtaScreen> {
       ));
     }
 
+    FIXME: Adding too many lines to this list makes the display overflow, wrap it in a scroll-something
+
     return LayoutGrid(
       columnSizes: [50.fr, 50.fr],
       rowSizes: List.filled(widgets.length ~/ 2, auto),
