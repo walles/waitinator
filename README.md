@@ -36,9 +36,6 @@ The color theme of the app has to be set in a number of different places:
 - Add a version / build number on the info screen, verify on both web and
   Android
 - Hint user to provide more observations if the two ETAs are "too far" apart
-- Make the ETA screen input box not look like crap in Firefox on Android. Can be
-  reproduced using Chrome on a computer with mobile emulation mode and a narrow
-  enough screen.
 - Bold the lower bound time left number
 - Enable removing / correcting observations
 - Preserve state even on page reloads
@@ -64,3 +61,6 @@ The color theme of the app has to be set in a number of different places:
 - Make the icon's "i" match the theme blue color, and the various icon
   backgrounds on web and Android white
 - Add dark mode support, tested on web and Android
+- Make the ETA screen input box not look like crap in Firefox on Android. Can be
+  reproduced using Chrome on a computer with mobile emulation mode and a narrow
+  enough screen.

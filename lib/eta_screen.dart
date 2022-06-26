@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:intl/intl.dart';
 
 import 'observation.dart';
@@ -93,12 +94,14 @@ class _EtaScreenState extends State<EtaScreen> {
     }
 
     return Expanded(
-      child: GridView.count(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        shrinkWrap: true,
-        childAspectRatio: 3.0,
-        children: widgets,
+      child: SingleChildScrollView(
+        child: LayoutGrid(
+          columnSizes: [50.fr, 50.fr],
+          rowSizes: List.filled(widgets.length ~/ 2, auto),
+          rowGap: 10,
+          columnGap: 10,
+          children: widgets,
+        ),
       ),
     );
   }
