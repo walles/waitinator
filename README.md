@@ -30,9 +30,6 @@ The color theme of the app has to be set in a number of different places:
 
 ## TODO
 
-- Make the ETA screen input box not look like crap in Firefox on Android. Can be
-  reproduced using Chrome on a computer with mobile emulation mode and a narrow
-  enough screen.
 - Don't crash when going to the second screen and then back to the first screen
   again. Right now (on web) we crash on the periodic 0.5s timer.
 - Add a reset button somewhere?
@@ -64,3 +61,6 @@ The color theme of the app has to be set in a number of different places:
 - Make the icon's "i" match the theme blue color, and the various icon
   backgrounds on web and Android white
 - Add dark mode support, tested on web and Android
+- Make the ETA screen input box not look like crap in Firefox on Android. Can be
+  reproduced using Chrome on a computer with mobile emulation mode and a narrow
+  enough screen.
