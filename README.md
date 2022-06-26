@@ -30,15 +30,15 @@ The color theme of the app has to be set in a number of different places:
 
 ## TODO
 
+- Make the ETA screen input box not look like crap in Firefox on Android. Can be
+  reproduced using Chrome on a computer with mobile emulation mode and a narrow
+  enough screen.
 - Don't crash when going to the second screen and then back to the first screen
   again. Right now (on web) we crash on the periodic 0.5s timer.
 - Add a reset button somewhere?
 - Add a version / build number on the info screen, verify on both web and
   Android
 - Hint user to provide more observations if the two ETAs are "too far" apart
-- Make the ETA screen input box not look like crap in Firefox on Android. Can be
-  reproduced using Chrome on a computer with mobile emulation mode and a narrow
-  enough screen.
 - Bold the lower bound time left number
 - Enable removing / correcting observations
 - Preserve state even on page reloads
