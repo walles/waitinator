@@ -34,12 +34,37 @@ class _EtaGraphPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     assert(_observations.isNotEmpty);
 
+    _paintQueueNumbers(canvas, size);
+
     final paint = Paint();
     paint.strokeWidth = 10;
     paint.color = Theme.of(context).colorScheme.onBackground;
     paint.style = PaintingStyle.stroke;
+  }
 
-    canvas.drawOval(Rect.fromLTWH(0, 0, size.width, size.height), paint);
+  void _paintQueueNumbers(Canvas canvas, Size size) {
+    final style = TextStyle(
+      color: Theme.of(context).colorScheme.onBackground,
+      fontSize: 15, // FIXME: What is a good number?
+    );
+
+    // FIXME: Paint the first number
+    final firstNumber = _observations.first.position;
+    final textSpan = TextSpan(
+      text: firstNumber.toString(),
+      style: style,
+    );
+    final painter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+    );
+    painter.layout(
+      minWidth: 0,
+      maxWidth: size.width,
+    );
+    painter.paint(canvas, Offset(0, size.height - painter.height));
+
+    // FIXME: Paint the last number
   }
 
   @override
