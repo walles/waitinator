@@ -33,6 +33,7 @@ The color theme of the app has to be set in a number of different places:
 - Don't crash when going to the second screen and then back to the first screen
   again. Right now (on web) we crash on the periodic 0.5s timer.
 - Make a macOS app
+- Make tab switching look good
 - Add a reset button somewhere?
 - Add a version / build number on the info screen, verify on both web and
   Android
