@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'observation.dart';
 import 'compute_estimate.dart';
 import 'estimate.dart';
-import 'screen_wrapper.dart';
+import 'tabbed_screen_wrapper.dart';
 
 class EtaScreen extends StatefulWidget {
   final int _target;
@@ -58,13 +58,24 @@ class _EtaScreenState extends State<EtaScreen> {
       );
     }
 
-    return ScreenWrapper(<Widget>[
+    var numbersTab =
+        Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       estimateWidget,
       const SizedBox(
           height:
               20 // FIXME: What is the unit here? How will this look on different devices?
           ),
       _renderObservations(),
+    ]);
+
+    var graphTab = const Icon(Icons.directions_bike);
+
+    return TabbedScreenWrapper(const [
+      Tab(icon: Icon(Icons.directions_car)),
+      Tab(icon: Icon(Icons.directions_transit)),
+    ], [
+      numbersTab,
+      graphTab,
     ]);
   }
 
