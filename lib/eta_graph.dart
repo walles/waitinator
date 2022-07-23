@@ -42,16 +42,14 @@ class _EtaGraphPainter extends CustomPainter {
     paint.style = PaintingStyle.stroke;
   }
 
-  void _paintQueueNumbers(Canvas canvas, Size size) {
+  TextPainter _toPainter(String text, Size size) {
     final style = TextStyle(
       color: Theme.of(context).colorScheme.onBackground,
       fontSize: 15, // FIXME: What is a good number?
     );
 
-    // FIXME: Paint the first number
-    final firstNumber = _observations.first.position;
     final textSpan = TextSpan(
-      text: firstNumber.toString(),
+      text: text,
       style: style,
     );
     final painter = TextPainter(
@@ -62,6 +60,14 @@ class _EtaGraphPainter extends CustomPainter {
       minWidth: 0,
       maxWidth: size.width,
     );
+
+    return painter;
+  }
+
+  void _paintQueueNumbers(Canvas canvas, Size size) {
+    // FIXME: Paint the first number
+    final firstNumber = _observations.first.position;
+    final painter = _toPainter(firstNumber.toString(), size);
     painter.paint(canvas, Offset(0, size.height - painter.height));
 
     // FIXME: Paint the last number
