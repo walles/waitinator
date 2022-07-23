@@ -69,7 +69,7 @@ class _EtaScreenState extends State<EtaScreen> {
       _renderObservations(),
     ]);
 
-    var graphTab = const EtaGraph();
+    var graphTab = EtaGraph(_observations);
 
     return TabbedScreenWrapper(const [
       Tab(icon: Icon(Icons.format_list_numbered)),
