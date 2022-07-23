@@ -68,11 +68,11 @@ class _EtaScreenState extends State<EtaScreen> {
       _renderObservations(),
     ]);
 
-    var graphTab = const Icon(Icons.directions_bike);
+    var graphTab = const Icon(Icons.show_chart);
 
     return TabbedScreenWrapper(const [
-      Tab(icon: Icon(Icons.directions_car)),
-      Tab(icon: Icon(Icons.directions_transit)),
+      Tab(icon: Icon(Icons.format_list_numbered)),
+      Tab(icon: Icon(Icons.show_chart)),
     ], [
       numbersTab,
       graphTab,
