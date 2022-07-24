@@ -6,6 +6,7 @@ import 'estimate.dart';
 import 'observation.dart';
 
 const _numbersToAxesDistance = 5.0;
+const _lineWidth = 2.0;
 
 class EtaGraph extends StatefulWidget {
   final List<Observation> _observations;
@@ -54,9 +55,9 @@ class _EtaGraphPainter extends CustomPainter {
     // FIXME: Draw a vertical line in the graph at the earliest ETA
     // FIXME: Draw a vertical line in the graph at the latest ETA
 
-    _paintLabels(canvas, size);
+    final bounds = _paintLabels(canvas, size);
 
-    // FIXME: Paint the axes
+    _paintAxes(canvas, bounds);
 
     // FIXME: Paint all samples. If the sample is "23", it should be painted as
     // a line from 23 to 24 at the right timestamp, to illustrate that we don't
@@ -64,6 +65,21 @@ class _EtaGraphPainter extends CustomPainter {
 
     // FIXME: Paint a vertical line at "now"? This would require us to regularly
     // update our drawing.
+  }
+
+  void _paintAxes(Canvas canvas, Rect bounds) {
+    final paint = Paint();
+    paint.strokeWidth = _lineWidth;
+    paint.color = Theme.of(context).colorScheme.onBackground;
+    paint.style = PaintingStyle.stroke;
+
+    // X axis
+    canvas.drawLine(Offset(bounds.left, bounds.bottom),
+        Offset(bounds.right, bounds.bottom), paint);
+
+    // Y axis
+    canvas.drawLine(Offset(bounds.left, bounds.top),
+        Offset(bounds.left, bounds.bottom), paint);
   }
 
   TextPainter _toPainter(String text, Size size) {
@@ -88,7 +104,8 @@ class _EtaGraphPainter extends CustomPainter {
     return painter;
   }
 
-  void _paintLabels(Canvas canvas, Size size) {
+  /// Returns the graph bounds after making room for the labels
+  Rect _paintLabels(Canvas canvas, Size size) {
     final firstTimestampPainter =
         _toPainter(Estimate.hhmm.format(_estimate.startedQueueing), size);
     final earliestEtaTimestampPainter =
@@ -137,13 +154,13 @@ class _EtaGraphPainter extends CustomPainter {
     final xAxisYCoordinate = timestampsTop - _numbersToAxesDistance;
 
     firstNumberPainter.paint(
-        canvas,
-        Offset(numbersRightmostX - firstNumberPainter.width,
-            firstNumberPainter.height));
+        canvas, Offset(numbersRightmostX - firstNumberPainter.width, 0));
     lastNumberPainter.paint(
         canvas,
         Offset(numbersRightmostX - lastNumberPainter.width,
             xAxisYCoordinate - lastNumberPainter.height));
+
+    return Rect.fromLTRB(yAxisXCoordinate, 0, size.width, xAxisYCoordinate);
   }
 
   @override
