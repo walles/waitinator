@@ -31,6 +31,8 @@ The color theme of the app has to be set in a number of different places:
 ## TODO
 
 - Test graph with both light and dark theme
+- Test graph both while counting up and counting down
+- Test the graph when having just the single initial observation
 - Don't crash when going to the second screen and then back to the first screen
   again. Right now (on web) we crash on the periodic 0.5s timer.
 - Make a macOS app
