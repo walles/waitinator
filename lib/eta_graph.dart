@@ -103,24 +103,38 @@ class _EtaGraphPainter extends CustomPainter {
 
     final numbersRightmostX =
         max(firstNumberPainter.width, lastNumberPainter.width);
-    final xAxisXCoordinate = numbersRightmostX + _numbersToAxesDistance;
+    final yAxisXCoordinate = numbersRightmostX + _numbersToAxesDistance;
 
     firstTimestampPainter.paint(canvas,
-        Offset(xAxisXCoordinate, size.height - firstTimestampPainter.height));
-
-    // FIXME: earliestEtaTimestampPainter.paint(canvas, the right place)
+        Offset(yAxisXCoordinate, size.height - firstTimestampPainter.height));
 
     latestEtaTimestampPainter.paint(
         canvas,
         Offset(size.width - latestEtaTimestampPainter.width,
             size.height - latestEtaTimestampPainter.height));
 
+    final earliestDMilliseconds =
+        _estimate.earliest.difference(_estimate.startedQueueing).inMilliseconds;
+    final latestDMilliseconds =
+        _estimate.latest.difference(_estimate.startedQueueing).inMilliseconds;
+    final earliestEtaFraction = earliestDMilliseconds / latestDMilliseconds;
+    final earliestEtaXCoordinate =
+        (size.width - yAxisXCoordinate) * earliestEtaFraction;
+
+    // FIXME: Should we right align this label? Center it? Something else?
+    // FIXME: Draw this below the latest timestamp if needed to prevent them
+    //        from overlapping
+    earliestEtaTimestampPainter.paint(
+        canvas,
+        Offset(earliestEtaXCoordinate,
+            size.height - earliestEtaTimestampPainter.height));
+
     // FIXME: If we draw the two ETAs at different Y coordinates this
     // calculation will have to be updated
     final timestampsTop = size.height -
         max(firstTimestampPainter.height, latestEtaTimestampPainter.height);
 
-    final yAxisYCoordinate = timestampsTop - _numbersToAxesDistance;
+    final xAxisYCoordinate = timestampsTop - _numbersToAxesDistance;
 
     firstNumberPainter.paint(
         canvas,
@@ -129,7 +143,7 @@ class _EtaGraphPainter extends CustomPainter {
     lastNumberPainter.paint(
         canvas,
         Offset(numbersRightmostX - lastNumberPainter.width,
-            yAxisYCoordinate - lastNumberPainter.height));
+            xAxisYCoordinate - lastNumberPainter.height));
   }
 
   @override
