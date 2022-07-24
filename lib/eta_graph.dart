@@ -2,14 +2,17 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'estimate.dart';
 import 'observation.dart';
 
 const _numbersToAxesDistance = 5.0;
 
 class EtaGraph extends StatefulWidget {
   final List<Observation> _observations;
+  final Estimate _estimate;
 
-  const EtaGraph(this._observations, {Key? key}) : super(key: key);
+  const EtaGraph(this._observations, this._estimate, {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -21,18 +24,22 @@ class _EtaGraph extends State<EtaGraph> {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: _EtaGraphPainter(context, widget._observations),
+      painter:
+          _EtaGraphPainter(context, widget._observations, widget._estimate),
     );
   }
 }
 
 class _EtaGraphPainter extends CustomPainter {
   final List<Observation> _observations;
+  final Estimate _estimate;
 
   final BuildContext context;
 
-  _EtaGraphPainter(this.context, List<Observation> observations)
-      : _observations = observations;
+  _EtaGraphPainter(
+      this.context, List<Observation> observations, Estimate estimate)
+      : _observations = observations,
+        _estimate = estimate;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -82,9 +89,12 @@ class _EtaGraphPainter extends CustomPainter {
   }
 
   void _paintLabels(Canvas canvas, Size size) {
-    final firstTimestampPainter = _toPainter('FIXME1'.toString(), size);
-    final earliestEtaTimestampPainter = _toPainter('FIXME2'.toString(), size);
-    final latestEtaTimestampPainter = _toPainter('FIXME3'.toString(), size);
+    final firstTimestampPainter =
+        _toPainter(Estimate.hhmm.format(_estimate.startedQueueing), size);
+    final earliestEtaTimestampPainter =
+        _toPainter(Estimate.hhmm.format(_estimate.earliest), size);
+    final latestEtaTimestampPainter =
+        _toPainter(Estimate.hhmm.format(_estimate.latest), size);
 
     final firstNumberPainter =
         _toPainter(_observations.first.position.toString(), size);

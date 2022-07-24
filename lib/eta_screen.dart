@@ -69,14 +69,25 @@ class _EtaScreenState extends State<EtaScreen> {
       _renderObservations(),
     ]);
 
-    var graphTab = EtaGraph(_observations);
+    // FIXME: Or should we just disable the tab when we don't have any ETA? Or
+    // just not draw the ETA in the graph?
+    final Widget etaGraphWidget;
+    if (_estimate == null) {
+      etaGraphWidget = const Text(""
+          "Need more observations.\n"
+          "\n"
+          "Go back to the observations entry tab and enter the next position"
+          ", then I'll get you a graph!");
+    } else {
+      etaGraphWidget = EtaGraph(_observations, _estimate!);
+    }
 
     return TabbedScreenWrapper(const [
       Tab(icon: Icon(Icons.format_list_numbered)),
       Tab(icon: Icon(Icons.show_chart)),
     ], [
       numbersTab,
-      graphTab,
+      etaGraphWidget,
     ]);
   }
 

@@ -7,7 +7,7 @@ class Estimate {
   final DateTime? _now;
   final int _target;
 
-  final _hhmm = DateFormat.Hm();
+  static final hhmm = DateFormat.Hm();
 
   /// The [startedQueueing] parameter is when the user first entered the queue.
   /// The [now] parameter overrides using DateTime.now() in toString(), and is
@@ -34,8 +34,8 @@ class Estimate {
     final totalLow = earliest.difference(startedQueueing);
     final totalHigh = latest.difference(startedQueueing);
     return "You will get to $_target in\n"
-        "between ${_renderDuration(remainingLow)}, at ${_hhmm.format(earliest)}\n"
-        "and ${_renderDuration(remainingHigh)}, at ${_hhmm.format(latest)}\n"
+        "between ${_renderDuration(remainingLow)}, at ${hhmm.format(earliest)}\n"
+        "and ${_renderDuration(remainingHigh)}, at ${hhmm.format(latest)}\n"
         "for a total queue time of ${_renderDuration(totalLow)}-${_renderDuration(totalHigh)}";
   }
 
@@ -43,7 +43,7 @@ class Estimate {
     final remaining = latest.difference(now);
     final total = latest.difference(startedQueueing);
     return "You will get to $_target in\n"
-        "${_renderDuration(remaining)}, at ${_hhmm.format(latest)}\n"
+        "${_renderDuration(remaining)}, at ${hhmm.format(latest)}\n"
         "for a total queue time of ${_renderDuration(total)}";
   }
 
@@ -51,7 +51,7 @@ class Estimate {
     final ago = now.difference(latest);
     final total = latest.difference(startedQueueing);
     return "You should have arrived at $_target\n"
-        "${_renderDuration(ago)} ago, at ${_hhmm.format(latest)}\n"
+        "${_renderDuration(ago)} ago, at ${hhmm.format(latest)}\n"
         "for a total queue time of ${_renderDuration(total)}";
   }
 
