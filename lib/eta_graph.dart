@@ -11,8 +11,10 @@ const _lineWidth = 2.0;
 class EtaGraph extends StatefulWidget {
   final List<Observation> _observations;
   final Estimate _estimate;
+  final int _targetPosition;
 
-  const EtaGraph(this._observations, this._estimate, {Key? key})
+  const EtaGraph(this._observations, this._estimate, this._targetPosition,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -25,8 +27,8 @@ class _EtaGraph extends State<EtaGraph> {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter:
-          _EtaGraphPainter(context, widget._observations, widget._estimate),
+      painter: _EtaGraphPainter(context, widget._observations, widget._estimate,
+          widget._targetPosition),
     );
   }
 }
@@ -34,13 +36,15 @@ class _EtaGraph extends State<EtaGraph> {
 class _EtaGraphPainter extends CustomPainter {
   final List<Observation> _observations;
   final Estimate _estimate;
+  final int _targetPosition;
 
   final BuildContext context;
 
-  _EtaGraphPainter(
-      this.context, List<Observation> observations, Estimate estimate)
+  _EtaGraphPainter(this.context, List<Observation> observations,
+      Estimate estimate, int targetPosition)
       : _observations = observations,
-        _estimate = estimate;
+        _estimate = estimate,
+        _targetPosition = targetPosition;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -60,9 +64,47 @@ class _EtaGraphPainter extends CustomPainter {
     // FIXME: Paint all samples. If the sample is "23", it should be painted as
     // a line from 23 to 24 at the right timestamp, to illustrate that we don't
     // know where in that interval the actual value is.
+    _paintSamples(canvas, bounds);
 
     // FIXME: Paint a vertical line at "now"? This would require us to regularly
     // update our drawing.
+  }
+
+  void _paintSamples(Canvas canvas, Rect bounds) {
+    final paint = Paint();
+    paint.strokeWidth = _lineWidth;
+    paint.color = Theme.of(context).colorScheme.onBackground;
+    paint.style = PaintingStyle.stroke;
+
+FIXME: This method doesn't paint anything when I try it
+
+    for (Observation observation in _observations) {
+      final dMilliseconds = observation.timestamp
+          .difference(_estimate.startedQueueing)
+          .inMilliseconds;
+      final latestDMilliseconds =
+          _estimate.latest.difference(_estimate.startedQueueing).inMilliseconds;
+      final xFraction = dMilliseconds / latestDMilliseconds;
+      final xCoordinate = bounds.width * xFraction;
+
+      final yHeight = _targetPosition - _observations.first.position;
+      final yFraction0 = observation.position / yHeight;
+      final y0 = bounds.height * yFraction0;
+
+      // Compute y1 as well, which is y0 plus one step towards the goal. To
+      // illustrate we can't know whether we just switched into this
+      // observation, or whether we are just about to switch to the next.
+      final int direction;
+      if (_targetPosition > observation.position) {
+        direction = 1;
+      } else {
+        direction = -1;
+      }
+      final yFraction1 = (observation.position + direction) / yHeight;
+      final y1 = bounds.height * yFraction1;
+
+      canvas.drawLine(Offset(xCoordinate, y0), Offset(xCoordinate, y1), paint);
+    }
   }
 
   void _paintAxes(Canvas canvas, Rect bounds) {

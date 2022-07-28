@@ -79,7 +79,7 @@ class _EtaScreenState extends State<EtaScreen> {
           "Go back to the observations entry tab and enter the next position"
           ", then I'll get you a graph!");
     } else {
-      etaGraphWidget = EtaGraph(_observations, _estimate!);
+      etaGraphWidget = EtaGraph(_observations, _estimate!, _target);
     }
 
     return TabbedScreenWrapper(const [
