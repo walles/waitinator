@@ -82,9 +82,9 @@ class _EtaGraphPainter extends CustomPainter {
         Offset(bounds.left, bounds.bottom), paint);
   }
 
-  TextPainter _toPainter(String text, Size size) {
+  TextPainter _toPainter(String text, Size size, [Color? color]) {
     final style = TextStyle(
-      color: Theme.of(context).colorScheme.onBackground,
+      color: color ??  Theme.of(context).colorScheme.onBackground,
       fontSize: 15, // FIXME: What is a good number?
     );
 
@@ -106,12 +106,15 @@ class _EtaGraphPainter extends CustomPainter {
 
   /// Returns the graph bounds after making room for the labels
   Rect _paintLabels(Canvas canvas, Size size) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final forecastColor = colorScheme.primary;
+
     final firstTimestampPainter =
         _toPainter(Estimate.hhmm.format(_estimate.startedQueueing), size);
     final earliestEtaTimestampPainter =
-        _toPainter(Estimate.hhmm.format(_estimate.earliest), size);
+        _toPainter(Estimate.hhmm.format(_estimate.earliest), size, forecastColor);
     final latestEtaTimestampPainter =
-        _toPainter(Estimate.hhmm.format(_estimate.latest), size);
+        _toPainter(Estimate.hhmm.format(_estimate.latest), size, forecastColor);
 
     final firstNumberPainter =
         _toPainter(_observations.first.position.toString(), size);
