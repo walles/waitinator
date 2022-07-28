@@ -170,7 +170,7 @@ class _EtaGraphPainter extends CustomPainter {
     //        from overlapping
     earliestEtaTimestampPainter.paint(
         canvas,
-        Offset(earliestEtaXCoordinate,
+        Offset(earliestEtaXCoordinate - earliestEtaTimestampPainter.width / 2,
             size.height - earliestEtaTimestampPainter.height));
 
     // FIXME: If we draw the two ETAs at different Y coordinates this
