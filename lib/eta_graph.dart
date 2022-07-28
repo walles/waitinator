@@ -52,12 +52,10 @@ class _EtaGraphPainter extends CustomPainter {
     // * X=[Earliest timestamp], Y=[Top of the first sample]
     // * X=[Earliest timestamp], Y=[Bottom of the first sample]
 
-    // FIXME: Draw a vertical line in the graph at the earliest ETA
-    // FIXME: Draw a vertical line in the graph at the latest ETA
-
     final bounds = _paintLabels(canvas, size);
 
     _paintAxes(canvas, bounds);
+    _paintVerticalEtaLines(canvas, bounds);
 
     // FIXME: Paint all samples. If the sample is "23", it should be painted as
     // a line from 23 to 24 at the right timestamp, to illustrate that we don't
@@ -82,9 +80,35 @@ class _EtaGraphPainter extends CustomPainter {
         Offset(bounds.left, bounds.bottom), paint);
   }
 
+  void _paintVerticalEtaLines(Canvas canvas, Rect bounds) {
+    // FIXME: Make these lines dashed? https://stackoverflow.com/a/71099304
+    final paint = Paint();
+    paint.strokeWidth = _lineWidth / 3;
+    paint.color = Theme.of(context).colorScheme.primary;
+    paint.style = PaintingStyle.stroke;
+
+    final top = bounds.top;
+    final bottom = bounds.bottom + _numbersToAxesDistance;
+
+    // FIXME: Computing the earliest X coordinate is also done in
+    // _paintLabels(), extract into a function?
+    final earliestDMilliseconds =
+        _estimate.earliest.difference(_estimate.startedQueueing).inMilliseconds;
+    final latestDMilliseconds =
+        _estimate.latest.difference(_estimate.startedQueueing).inMilliseconds;
+    final earliestEtaFraction = earliestDMilliseconds / latestDMilliseconds;
+    final earliestEtaXCoordinate = bounds.width * earliestEtaFraction;
+
+    canvas.drawLine(Offset(earliestEtaXCoordinate, top),
+        Offset(earliestEtaXCoordinate, bottom), paint);
+
+    canvas.drawLine(
+        Offset(bounds.right, top), Offset(bounds.right, bottom), paint);
+  }
+
   TextPainter _toPainter(String text, Size size, [Color? color]) {
     final style = TextStyle(
-      color: color ??  Theme.of(context).colorScheme.onBackground,
+      color: color ?? Theme.of(context).colorScheme.onBackground,
       fontSize: 15, // FIXME: What is a good number?
     );
 
@@ -111,8 +135,8 @@ class _EtaGraphPainter extends CustomPainter {
 
     final firstTimestampPainter =
         _toPainter(Estimate.hhmm.format(_estimate.startedQueueing), size);
-    final earliestEtaTimestampPainter =
-        _toPainter(Estimate.hhmm.format(_estimate.earliest), size, forecastColor);
+    final earliestEtaTimestampPainter = _toPainter(
+        Estimate.hhmm.format(_estimate.earliest), size, forecastColor);
     final latestEtaTimestampPainter =
         _toPainter(Estimate.hhmm.format(_estimate.latest), size, forecastColor);
 
