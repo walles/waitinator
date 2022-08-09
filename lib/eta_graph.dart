@@ -56,6 +56,9 @@ class _EtaGraphPainter extends CustomPainter {
     // * X=[Earliest timestamp], Y=[Top of the first sample]
     // * X=[Earliest timestamp], Y=[Bottom of the first sample]
 
+    FIXME: Draw a vertical line in the graph at the earliest ETA
+    FIXME: Draw a vertical line in the graph at the latest ETA
+
     final bounds = _paintLabels(canvas, size);
 
     _paintAxes(canvas, bounds);
