@@ -1,24 +1,55 @@
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:waitinator/observation.dart';
 
 /// Persistent list of `Observation`s and a target
 class EtaState {
-  final int _target;
+  final int target;
   final List<Observation> _observations = [];
 
   @visibleForTesting
-  EtaState(int target) : _target = target;
-
-  int get target {
-    return _target;
-  }
+  EtaState(this.target);
 
   void add(Observation observation) {
     _observations.add(observation);
   }
 
+  @override
+  bool operator ==(Object other) {
+    if (other.runtimeType != EtaState) {
+      return false;
+    }
+
+    final otherEtaState = other as EtaState;
+    if (otherEtaState.target != target) {
+      return false;
+    }
+    if (!listEquals(otherEtaState._observations, _observations)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    int returnMe = target.hashCode;
+    for (final observation in _observations) {
+      returnMe ^= observation.hashCode;
+    }
+    return returnMe;
+  }
+
+  @override
+  String toString() {
+    return "{ target=$target observations={ ${_observations.join(", ")} } }";
+  }
+
   String serialize() {
-    String serialized = "$_target ";
+    String serialized = "$target";
+
+    if (_observations.isNotEmpty) {
+      serialized += " ";
+    }
 
     for (final observation in _observations) {
       serialized += observation.position.toString();
