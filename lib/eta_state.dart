@@ -47,11 +47,8 @@ class EtaState {
   String serialize() {
     String serialized = "$target";
 
-    if (_observations.isNotEmpty) {
-      serialized += " ";
-    }
-
     for (final observation in _observations) {
+      serialized += " ";
       serialized += observation.position.toString();
       serialized += " ";
       serialized += observation.timestamp.millisecondsSinceEpoch.toString();
