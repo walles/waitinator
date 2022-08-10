@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:waitinator/eta_state.dart';
 
 import 'eta_screen.dart';
 import 'screen_wrapper.dart';
@@ -33,6 +34,7 @@ class WaitinatorApp extends StatefulWidget {
 class _WaitinatorAppState extends State<WaitinatorApp> {
   String _positionIWantToGetTo = "";
   String _currentPosition = "";
+  EtaState? _state;
 
   @override
   Widget build(BuildContext context) {

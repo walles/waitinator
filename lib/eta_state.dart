@@ -9,8 +9,24 @@ class EtaState {
   @visibleForTesting
   EtaState(this.target);
 
+  Iterable<Observation> get reversed {
+    return _observations.reversed;
+  }
+
+  Observation get last {
+    return _observations.last;
+  }
+
   void add(Observation observation) {
     _observations.add(observation);
+  }
+
+  int get length {
+    return _observations.length;
+  }
+
+  Observation operator [](int index) {
+    return _observations[index];
   }
 
   @override

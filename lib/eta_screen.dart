@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:intl/intl.dart';
+import 'package:waitinator/eta_state.dart';
 
 import 'observation.dart';
 import 'compute_estimate.dart';
@@ -11,12 +12,10 @@ import 'estimate.dart';
 import 'screen_wrapper.dart';
 
 class EtaScreen extends StatefulWidget {
-  final int _target;
-  final int _firstObservation;
+  final EtaState _state;
 
-  const EtaScreen(int target, int current, {Key? key})
-      : _target = target,
-        _firstObservation = current,
+  const EtaScreen(EtaState state, {Key? key})
+      : _state = state,
         super(key: key);
 
   @override
@@ -24,8 +23,6 @@ class EtaScreen extends StatefulWidget {
 }
 
 class _EtaScreenState extends State<EtaScreen> {
-  int _target = 0;
-  final List<Observation> _observations = [];
   Estimate? _estimate;
 
   final _hhmmss = DateFormat.Hms();
@@ -35,8 +32,6 @@ class _EtaScreenState extends State<EtaScreen> {
   @override
   void initState() {
     super.initState();
-    _target = widget._target;
-    _observations.add(Observation(DateTime.now(), widget._firstObservation));
 
     // Tick the _currentTimeText() rendering
     Timer.periodic(
@@ -74,7 +69,7 @@ class _EtaScreenState extends State<EtaScreen> {
       _newObservationEntry(),
     ];
 
-    for (final observation in _observations.reversed) {
+    for (final observation in widget._state.reversed) {
       widgets.add(Align(
         alignment: Alignment.centerRight,
         child: Text(
@@ -107,9 +102,10 @@ class _EtaScreenState extends State<EtaScreen> {
   }
 
   TextField _newObservationEntry() {
-    final lastPosition = _observations.last.position;
-    final examplePosition =
-        (_target < lastPosition) ? lastPosition - 1 : lastPosition + 1;
+    final lastPosition = widget._state.last.position;
+    final examplePosition = (widget._state.target < lastPosition)
+        ? lastPosition - 1
+        : lastPosition + 1;
     // FIXME: Disable this box if we're too close to the target
 
     return TextField(
@@ -135,20 +131,20 @@ class _EtaScreenState extends State<EtaScreen> {
 
         // FIXME: How do we surface these validation results to the user?
         final number = int.parse(value);
-        if (lastPosition < _target && number < lastPosition) {
+        if (lastPosition < widget._state.target && number < lastPosition) {
           // Counting up, but the new observation is lower than the last
           _newObservationFocus.requestFocus();
           return;
         }
-        if (_target < lastPosition && number > lastPosition) {
+        if (widget._state.target < lastPosition && number > lastPosition) {
           // Counting down, but the new observation is higher than the last
           _newObservationFocus.requestFocus();
           return;
         }
 
         setState(() {
-          _observations.add(Observation(DateTime.now(), number));
-          _estimate = estimate(_observations, _target);
+          widget._state.add(Observation(DateTime.now(), number));
+          _estimate = estimate(widget._state);
         });
 
         _newObservationController.clear();
