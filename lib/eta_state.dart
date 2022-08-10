@@ -6,7 +6,6 @@ class EtaState {
   final int target;
   final List<Observation> _observations = [];
 
-  @visibleForTesting
   EtaState(this.target);
 
   Iterable<Observation> get reversed {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:waitinator/eta_state.dart';
+import 'package:waitinator/observation.dart';
 
 import 'eta_screen.dart';
 import 'screen_wrapper.dart';
@@ -38,20 +39,24 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenWrapper(<Widget>[
-      _positionIWantToGetToWidget(),
-      _currentPositionWidget(),
-      const SizedBox(
-          height:
-              20 // FIXME: What is the unit here? How will this look on different devices?
-          ),
-      _explanationWidget(),
-      const SizedBox(
-          height:
-              20 // FIXME: What is the unit here? How will this look on different devices?
-          ),
-      _startButton(),
-    ]);
+    if (_state == null) {
+      return ScreenWrapper(<Widget>[
+        _positionIWantToGetToWidget(),
+        _currentPositionWidget(),
+        const SizedBox(
+            height:
+                20 // FIXME: What is the unit here? How will this look on different devices?
+            ),
+        _explanationWidget(),
+        const SizedBox(
+            height:
+                20 // FIXME: What is the unit here? How will this look on different devices?
+            ),
+        _startButton(),
+      ]);
+    }
+
+    return EtaScreen(_state!);
   }
 
   /// "Number I want to get to: ___"
@@ -155,17 +160,18 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
     }
 
     return ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              builder: (context) {
-                var target = int.parse(_positionIWantToGetTo);
-                var current = int.parse(_currentPosition);
-                return EtaScreen(target, current);
-              },
-            ),
-          );
-        },
-        child: goText);
+      onPressed: () {
+        var target = int.parse(_positionIWantToGetTo);
+        var current = int.parse(_currentPosition);
+
+        final newState = EtaState(target);
+        newState.add(Observation(DateTime.now(), current));
+
+        setState(() {
+          _state = newState;
+        });
+      },
+      child: goText,
+    );
   }
 }
