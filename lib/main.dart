@@ -56,7 +56,11 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
       ]);
     }
 
-    return EtaScreen(_state!);
+    return EtaScreen(_state!, () {
+      setState(() {
+        _state = null;
+      });
+    });
   }
 
   /// "Number I want to get to: ___"

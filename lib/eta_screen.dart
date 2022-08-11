@@ -13,9 +13,13 @@ import 'screen_wrapper.dart';
 
 class EtaScreen extends StatefulWidget {
   final EtaState _state;
+  final Null Function() _onClose;
 
-  const EtaScreen(EtaState state, {Key? key})
+  /// `onClose()` will be called when the top-left-corner-X is pressed, after
+  /// the `EtaScreen` finishes shutting down.
+  const EtaScreen(EtaState state, Null Function() onClose, {Key? key})
       : _state = state,
+        _onClose = onClose,
         super(key: key);
 
   @override
@@ -29,12 +33,14 @@ class _EtaScreenState extends State<EtaScreen> {
   final _newObservationController = TextEditingController();
   final _newObservationFocus = FocusNode();
 
+  late Timer _tickCurrentTimeText;
+
   @override
   void initState() {
     super.initState();
 
     // Tick the _currentTimeText() rendering
-    Timer.periodic(
+    _tickCurrentTimeText = Timer.periodic(
         const Duration(milliseconds: 500), (Timer t) => setState(() {}));
   }
 
@@ -60,7 +66,10 @@ class _EtaScreenState extends State<EtaScreen> {
               20 // FIXME: What is the unit here? How will this look on different devices?
           ),
       _renderObservations(),
-    ]);
+    ], onClose: () {
+      _tickCurrentTimeText.cancel();
+      widget._onClose();
+    });
   }
 
   Widget _renderObservations() {
