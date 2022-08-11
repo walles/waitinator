@@ -6,32 +6,44 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ScreenWrapper extends StatelessWidget {
   final List<Widget> _children;
+  final Null Function()? _onClose;
 
   /// The [children] will be rendered in a Column.
-  const ScreenWrapper(List<Widget> children, {Key? key})
+  const ScreenWrapper(List<Widget> children,
+      {Null Function()? onClose, Key? key})
       : _children = children,
+        _onClose = onClose,
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    IconButton? leading;
+    if (_onClose != null) {
+      leading = IconButton(onPressed: _onClose, icon: const Icon(Icons.close));
+    }
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Waitinator'), actions: [
-        IconButton(
-          icon: const Icon(Icons.info),
-          onPressed: () {
-            showAboutDialog(
-                context: context,
-                applicationLegalese: "© 2022 johan.walles@gmail.com",
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: _infoText(),
-                  ),
-                ]);
-          },
-          tooltip: 'About',
-        ),
-      ]),
+      appBar: AppBar(
+        title: const Text('Waitinator'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info),
+            onPressed: () {
+              showAboutDialog(
+                  context: context,
+                  applicationLegalese: "© 2022 johan.walles@gmail.com",
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: _infoText(),
+                    ),
+                  ]);
+            },
+            tooltip: 'About',
+          ),
+        ],
+        leading: leading,
+      ),
       body: Container(
         alignment: Alignment.center,
         child: Container(
