@@ -44,7 +44,6 @@ Estimate? computeEstimate(EtaState state) {
 
   final firstLastDtMillis =
       last.timestamp.difference(first.timestamp).inMilliseconds;
-  final direction = first.position < state.target ? 1 : -1;
 
   final List<double> msLeftSamples = [];
   final random = Random();
@@ -52,8 +51,9 @@ Estimate? computeEstimate(EtaState state) {
     // Let's say we're going to 100, and the user reports 53. We still don't
     // know whether the number just switched to 53, or whether it was just about
     // to go to 54. Therefore we add a random bonus to the reported numbers.
-    final firstPosition = first.position + random.nextDouble() * direction;
-    final lastPosition = last.position + random.nextDouble() * direction;
+    final firstPosition =
+        first.position + random.nextDouble() * state.direction;
+    final lastPosition = last.position + random.nextDouble() * state.direction;
 
     final velocityMillisecondsPerNumber =
         firstLastDtMillis / (lastPosition - firstPosition).abs();

@@ -90,13 +90,7 @@ class _EtaGraphPainter extends CustomPainter {
       // Compute y1 as well, which is y0 plus one step towards the goal. To
       // illustrate we can't know whether we just switched into this
       // observation, or whether we are just about to switch to the next.
-      final int direction;
-      if (_state.target > observation.position) {
-        direction = 1;
-      } else {
-        direction = -1;
-      }
-      final yFraction1 = (observation.position + direction) / yHeight;
+      final yFraction1 = (observation.position + _state.direction) / yHeight;
       final y1 = bounds.height * yFraction1;
 
       canvas.drawLine(Offset(xCoordinate, y0), Offset(xCoordinate, y1), paint);
