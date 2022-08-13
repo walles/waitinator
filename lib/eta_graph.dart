@@ -74,32 +74,33 @@ class _EtaGraphPainter extends CustomPainter {
   }
 
   void _paintSamples(Canvas canvas, Rect bounds) {
-    // FIXME: This method is mostly broken. Test it both counting up and down.
-
     final paint = Paint();
     paint.strokeWidth = _lineWidth * 2;
     paint.color = Theme.of(context).colorScheme.onBackground;
     paint.style = PaintingStyle.stroke;
 
-    final latestDMilliseconds =
+    final widthMilliseconds =
         _estimate.latest.difference(_estimate.startedQueueing).inMilliseconds;
 
     for (Observation observation in _state.observations) {
-      final dMilliseconds = observation.timestamp
+      final xMilliseconds = observation.timestamp
           .difference(_estimate.startedQueueing)
           .inMilliseconds;
-      final xFraction = dMilliseconds / latestDMilliseconds;
+      final xFraction = xMilliseconds / widthMilliseconds;
       final xCoordinate = bounds.left + bounds.width * xFraction;
 
-      final yHeight = _state[0].position - _state.target;
-      final yFraction0 = observation.position / yHeight;
-      final y0 = bounds.height * yFraction0;
+      final heightPositions = highestNumber - lowestNumber;
+      final yFraction0 =
+          (observation.position - lowestNumber) / heightPositions;
+      final y0 = bounds.bottom - bounds.height * yFraction0;
 
       // Compute y1 as well, which is y0 plus one step towards the goal. To
       // illustrate we can't know whether we just switched into this
       // observation, or whether we are just about to switch to the next.
-      final yFraction1 = (observation.position + _state.direction) / yHeight;
-      final y1 = bounds.height * yFraction1;
+      final yFraction1 =
+          (observation.position + _state.direction - lowestNumber) /
+              heightPositions;
+      final y1 = bounds.bottom - bounds.height * yFraction1;
 
       canvas.drawLine(Offset(xCoordinate, y0), Offset(xCoordinate, y1), paint);
     }
