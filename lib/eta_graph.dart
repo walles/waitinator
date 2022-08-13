@@ -13,9 +13,7 @@ class EtaGraph extends StatefulWidget {
   final EtaState _state;
   final Estimate _estimate;
 
-  const EtaGraph(this._state, this._estimate,
-      {Key? key})
-      : super(key: key);
+  const EtaGraph(this._state, this._estimate, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -38,8 +36,7 @@ class _EtaGraphPainter extends CustomPainter {
 
   final BuildContext context;
 
-  _EtaGraphPainter(this.context, EtaState state,
-      Estimate estimate)
+  _EtaGraphPainter(this.context, EtaState state, Estimate estimate)
       : _state = state,
         _estimate = estimate;
 
@@ -51,8 +48,8 @@ class _EtaGraphPainter extends CustomPainter {
     // * X=[Earliest timestamp], Y=[Top of the first sample]
     // * X=[Earliest timestamp], Y=[Bottom of the first sample]
 
-    FIXME: Draw a vertical line in the graph at the earliest ETA
-    FIXME: Draw a vertical line in the graph at the latest ETA
+    // FIXME: Draw a vertical line in the graph at the earliest ETA
+    // FIXME: Draw a vertical line in the graph at the latest ETA
 
     final bounds = _paintLabels(canvas, size);
 
@@ -69,23 +66,24 @@ class _EtaGraphPainter extends CustomPainter {
   }
 
   void _paintSamples(Canvas canvas, Rect bounds) {
+    // FIXME: This method is mostly broken. Test it both counting up and down.
+
     final paint = Paint();
     paint.strokeWidth = _lineWidth;
     paint.color = Theme.of(context).colorScheme.onBackground;
     paint.style = PaintingStyle.stroke;
 
-FIXME: This method doesn't paint anything when I try it
+    final latestDMilliseconds =
+        _estimate.latest.difference(_estimate.startedQueueing).inMilliseconds;
 
     for (Observation observation in _state.observations) {
       final dMilliseconds = observation.timestamp
           .difference(_estimate.startedQueueing)
           .inMilliseconds;
-      final latestDMilliseconds =
-          _estimate.latest.difference(_estimate.startedQueueing).inMilliseconds;
       final xFraction = dMilliseconds / latestDMilliseconds;
-      final xCoordinate = bounds.width * xFraction;
+      final xCoordinate = bounds.left + bounds.width * xFraction;
 
-      final yHeight = _state.target - _state[0].position;
+      final yHeight = _state[0].position - _state.target;
       final yFraction0 = observation.position / yHeight;
       final y0 = bounds.height * yFraction0;
 
@@ -180,10 +178,8 @@ FIXME: This method doesn't paint anything when I try it
     final latestEtaTimestampPainter =
         _toPainter(Estimate.hhmm.format(_estimate.latest), size, forecastColor);
 
-    final firstNumberPainter =
-        _toPainter(_state[0].position.toString(), size);
-    final lastNumberPainter =
-        _toPainter(_state.last.position.toString(), size);
+    final firstNumberPainter = _toPainter(_state[0].position.toString(), size);
+    final lastNumberPainter = _toPainter(_state.last.position.toString(), size);
 
     final numbersRightmostX =
         max(firstNumberPainter.width, lastNumberPainter.width);
