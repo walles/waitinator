@@ -50,27 +50,49 @@ class _EtaGraphPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // FIXME: Paint the ETA polygon with corners at:
-    // * X=[Earliest ETA], Y=[Target number]
-    // * X=[Latest ETA], Y=[Target number]
-    // * X=[Earliest timestamp], Y=[Top of the first sample]
-    // * X=[Earliest timestamp], Y=[Bottom of the first sample]
-
-    // FIXME: Draw a vertical line in the graph at the earliest ETA
-    // FIXME: Draw a vertical line in the graph at the latest ETA
-
     final bounds = _paintLabels(canvas, size);
+
+    _paintEtaPolygon(canvas, bounds);
 
     _paintAxes(canvas, bounds);
     _paintVerticalEtaLines(canvas, bounds);
-
-    // FIXME: Paint all samples. If the sample is "23", it should be painted as
-    // a line from 23 to 24 at the right timestamp, to illustrate that we don't
-    // know where in that interval the actual value is.
     _paintSamples(canvas, bounds);
 
     // FIXME: Paint a vertical line at "now"? This would require us to regularly
     // update our drawing.
+  }
+
+  void _paintEtaPolygon(Canvas canvas, Rect bounds) {
+    final paint = Paint()
+      ..color = Theme.of(context).colorScheme.onBackground
+      ..style = PaintingStyle.fill;
+
+    // Source of inspiration:
+    // https://stackoverflow.com/questions/61359457/how-to-draw-a-filled-polygon
+    Path etaPolygon = Path();
+
+    // FIXME: Add code here
+  }
+
+  double timeToX(DateTime timestamp, Rect bounds) {
+    final widthMilliseconds =
+        _estimate.latest.difference(_estimate.startedQueueing).inMilliseconds;
+
+    final xMilliseconds =
+        timestamp.difference(_estimate.startedQueueing).inMilliseconds;
+    final xFraction = xMilliseconds / widthMilliseconds;
+    final xCoordinate = bounds.left + bounds.width * xFraction;
+
+    return xCoordinate;
+  }
+
+  double positionToY(int position, Rect bounds) {
+    final heightPositions = highestNumber - lowestNumber;
+
+    final yFraction = (position - lowestNumber) / heightPositions;
+    final yCoordinate = bounds.bottom - bounds.height * yFraction;
+
+    return yCoordinate;
   }
 
   void _paintSamples(Canvas canvas, Rect bounds) {
@@ -79,28 +101,14 @@ class _EtaGraphPainter extends CustomPainter {
     paint.color = Theme.of(context).colorScheme.onBackground;
     paint.style = PaintingStyle.stroke;
 
-    final widthMilliseconds =
-        _estimate.latest.difference(_estimate.startedQueueing).inMilliseconds;
-
     for (Observation observation in _state.observations) {
-      final xMilliseconds = observation.timestamp
-          .difference(_estimate.startedQueueing)
-          .inMilliseconds;
-      final xFraction = xMilliseconds / widthMilliseconds;
-      final xCoordinate = bounds.left + bounds.width * xFraction;
-
-      final heightPositions = highestNumber - lowestNumber;
-      final yFraction0 =
-          (observation.position - lowestNumber) / heightPositions;
-      final y0 = bounds.bottom - bounds.height * yFraction0;
+      final xCoordinate = timeToX(observation.timestamp, bounds);
+      final y0 = positionToY(observation.position, bounds);
 
       // Compute y1 as well, which is y0 plus one step towards the goal. To
       // illustrate we can't know whether we just switched into this
       // observation, or whether we are just about to switch to the next.
-      final yFraction1 =
-          (observation.position + _state.direction - lowestNumber) /
-              heightPositions;
-      final y1 = bounds.bottom - bounds.height * yFraction1;
+      final y1 = positionToY(observation.position + _state.direction, bounds);
 
       canvas.drawLine(Offset(xCoordinate, y0), Offset(xCoordinate, y1), paint);
     }
@@ -131,15 +139,7 @@ class _EtaGraphPainter extends CustomPainter {
     final top = bounds.top;
     final bottom = bounds.bottom + _numbersToAxesDistance;
 
-    // FIXME: Computing the earliest X coordinate is also done in
-    // _paintLabels(), extract into a function?
-    final earliestDMilliseconds =
-        _estimate.earliest.difference(_estimate.startedQueueing).inMilliseconds;
-    final latestDMilliseconds =
-        _estimate.latest.difference(_estimate.startedQueueing).inMilliseconds;
-    final earliestEtaFraction = earliestDMilliseconds / latestDMilliseconds;
-    final earliestEtaXCoordinate = bounds.width * earliestEtaFraction;
-
+    final earliestEtaXCoordinate = timeToX(_estimate.earliest, bounds);
     canvas.drawLine(Offset(earliestEtaXCoordinate, top),
         Offset(earliestEtaXCoordinate, bottom), paint);
 
