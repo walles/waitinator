@@ -179,7 +179,7 @@ class _EtaGraphPainter extends CustomPainter {
         _toPainter(Estimate.hhmm.format(_estimate.latest), size, forecastColor);
 
     final firstNumberPainter = _toPainter(_state[0].position.toString(), size);
-    final lastNumberPainter = _toPainter(_state.last.position.toString(), size);
+    final lastNumberPainter = _toPainter(_state.target.toString(), size);
 
     final numbersRightmostX =
         max(firstNumberPainter.width, lastNumberPainter.width);
