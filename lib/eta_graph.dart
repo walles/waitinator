@@ -40,6 +40,14 @@ class _EtaGraphPainter extends CustomPainter {
       : _state = state,
         _estimate = estimate;
 
+  int get lowestNumber {
+    return min(_state[0].position, _state.target);
+  }
+
+  int get highestNumber {
+    return max(_state[0].position, _state.target);
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
     // FIXME: Paint the ETA polygon with corners at:
@@ -69,7 +77,7 @@ class _EtaGraphPainter extends CustomPainter {
     // FIXME: This method is mostly broken. Test it both counting up and down.
 
     final paint = Paint();
-    paint.strokeWidth = _lineWidth;
+    paint.strokeWidth = _lineWidth * 2;
     paint.color = Theme.of(context).colorScheme.onBackground;
     paint.style = PaintingStyle.stroke;
 
@@ -172,11 +180,11 @@ class _EtaGraphPainter extends CustomPainter {
     final latestEtaTimestampPainter =
         _toPainter(Estimate.hhmm.format(_estimate.latest), size, forecastColor);
 
-    final firstNumberPainter = _toPainter(_state[0].position.toString(), size);
-    final lastNumberPainter = _toPainter(_state.target.toString(), size);
+    final lowestNumberPainter = _toPainter(lowestNumber.toString(), size);
+    final highestNumberPainter = _toPainter(highestNumber.toString(), size);
 
     final numbersRightmostX =
-        max(firstNumberPainter.width, lastNumberPainter.width);
+        max(lowestNumberPainter.width, highestNumberPainter.width);
     final yAxisXCoordinate = numbersRightmostX + _numbersToAxesDistance;
 
     firstTimestampPainter.paint(canvas,
@@ -210,12 +218,12 @@ class _EtaGraphPainter extends CustomPainter {
 
     final xAxisYCoordinate = timestampsTop - _numbersToAxesDistance;
 
-    firstNumberPainter.paint(
-        canvas, Offset(numbersRightmostX - firstNumberPainter.width, 0));
-    lastNumberPainter.paint(
+    lowestNumberPainter.paint(
         canvas,
-        Offset(numbersRightmostX - lastNumberPainter.width,
-            xAxisYCoordinate - lastNumberPainter.height));
+        Offset(numbersRightmostX - lowestNumberPainter.width,
+            xAxisYCoordinate - lowestNumberPainter.height));
+    highestNumberPainter.paint(
+        canvas, Offset(numbersRightmostX - highestNumberPainter.width, 0));
 
     return Rect.fromLTRB(yAxisXCoordinate, 0, size.width, xAxisYCoordinate);
   }
