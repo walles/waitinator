@@ -53,7 +53,6 @@ class _EtaGraphPainter extends CustomPainter {
     final bounds = _paintLabels(canvas, size);
 
     _paintEtaPolygon(canvas, bounds);
-
     _paintAxes(canvas, bounds);
     _paintVerticalEtaLines(canvas, bounds);
     _paintSamples(canvas, bounds);
@@ -64,14 +63,30 @@ class _EtaGraphPainter extends CustomPainter {
 
   void _paintEtaPolygon(Canvas canvas, Rect bounds) {
     final paint = Paint()
-      ..color = Theme.of(context).colorScheme.onBackground
+      ..color = Theme.of(context).colorScheme.surface
       ..style = PaintingStyle.fill;
 
     // Source of inspiration:
     // https://stackoverflow.com/questions/61359457/how-to-draw-a-filled-polygon
     Path etaPolygon = Path();
 
-    // FIXME: Add code here
+    // Start at first observation
+    etaPolygon.moveTo(timeToX(_state[0].timestamp, bounds),
+        positionToY(_state[0].position, bounds));
+
+    // Go to the other end of that observation
+    etaPolygon.lineTo(timeToX(_state[0].timestamp, bounds),
+        positionToY(_state[0].position + _state.direction, bounds));
+
+    // Go to the earliest ETA
+    etaPolygon.lineTo(timeToX(_estimate.earliest, bounds),
+        positionToY(_state.target, bounds));
+
+    // Then to the latest ETA
+    etaPolygon.lineTo(
+        timeToX(_estimate.latest, bounds), positionToY(_state.target, bounds));
+
+    canvas.drawPath(etaPolygon, paint);
   }
 
   double timeToX(DateTime timestamp, Rect bounds) {
@@ -96,10 +111,10 @@ class _EtaGraphPainter extends CustomPainter {
   }
 
   void _paintSamples(Canvas canvas, Rect bounds) {
-    final paint = Paint();
-    paint.strokeWidth = _lineWidth * 2;
-    paint.color = Theme.of(context).colorScheme.onBackground;
-    paint.style = PaintingStyle.stroke;
+    final paint = Paint()
+      ..strokeWidth = _lineWidth * 2
+      ..color = Theme.of(context).colorScheme.onBackground
+      ..style = PaintingStyle.stroke;
 
     for (Observation observation in _state.observations) {
       final xCoordinate = timeToX(observation.timestamp, bounds);
@@ -115,10 +130,10 @@ class _EtaGraphPainter extends CustomPainter {
   }
 
   void _paintAxes(Canvas canvas, Rect bounds) {
-    final paint = Paint();
-    paint.strokeWidth = _lineWidth;
-    paint.color = Theme.of(context).colorScheme.onBackground;
-    paint.style = PaintingStyle.stroke;
+    final paint = Paint()
+      ..strokeWidth = _lineWidth
+      ..color = Theme.of(context).colorScheme.onBackground
+      ..style = PaintingStyle.stroke;
 
     // X axis
     canvas.drawLine(Offset(bounds.left, bounds.bottom),
@@ -131,10 +146,10 @@ class _EtaGraphPainter extends CustomPainter {
 
   void _paintVerticalEtaLines(Canvas canvas, Rect bounds) {
     // FIXME: Make these lines dashed? https://stackoverflow.com/a/71099304
-    final paint = Paint();
-    paint.strokeWidth = _lineWidth / 3;
-    paint.color = Theme.of(context).colorScheme.primary;
-    paint.style = PaintingStyle.stroke;
+    final paint = Paint()
+      ..strokeWidth = _lineWidth / 3
+      ..color = Theme.of(context).colorScheme.primary
+      ..style = PaintingStyle.stroke;
 
     final top = bounds.top;
     final bottom = bounds.bottom + _numbersToAxesDistance;
