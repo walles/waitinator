@@ -145,7 +145,6 @@ class _EtaGraphPainter extends CustomPainter {
   }
 
   void _paintVerticalEtaLines(Canvas canvas, Rect bounds) {
-    // FIXME: Make these lines dashed? https://stackoverflow.com/a/71099304
     final paint = Paint()
       ..strokeWidth = _lineWidth / 3
       ..color = Theme.of(context).colorScheme.primary
@@ -187,14 +186,7 @@ class _EtaGraphPainter extends CustomPainter {
   /// Returns the graph bounds after making room for the labels
   Rect _paintLabels(Canvas canvas, Size size) {
     final colorScheme = Theme.of(context).colorScheme;
-    final forecastColor = colorScheme.primary;
-
-    final firstTimestampPainter =
-        _toPainter(Estimate.hhmm.format(_estimate.startedQueueing), size);
-    final earliestEtaTimestampPainter = _toPainter(
-        Estimate.hhmm.format(_estimate.earliest), size, forecastColor);
-    final latestEtaTimestampPainter =
-        _toPainter(Estimate.hhmm.format(_estimate.latest), size, forecastColor);
+    final etaColor = colorScheme.primary;
 
     final lowestNumberPainter = _toPainter(lowestNumber.toString(), size);
     final highestNumberPainter = _toPainter(highestNumber.toString(), size);
@@ -203,13 +195,12 @@ class _EtaGraphPainter extends CustomPainter {
         max(lowestNumberPainter.width, highestNumberPainter.width);
     final yAxisXCoordinate = numbersRightmostX + _numbersToAxesDistance;
 
-    firstTimestampPainter.paint(canvas,
-        Offset(yAxisXCoordinate, size.height - firstTimestampPainter.height));
-
-    latestEtaTimestampPainter.paint(
-        canvas,
-        Offset(size.width - latestEtaTimestampPainter.width,
-            size.height - latestEtaTimestampPainter.height));
+    final firstTimestampPainter =
+        _toPainter(Estimate.hhmm.format(_estimate.startedQueueing), size);
+    final earliestEtaPainter =
+        _toPainter(Estimate.hhmm.format(_estimate.earliest), size, etaColor);
+    final latestEtaPainter =
+        _toPainter(Estimate.hhmm.format(_estimate.latest), size, etaColor);
 
     final earliestDMilliseconds =
         _estimate.earliest.difference(_estimate.startedQueueing).inMilliseconds;
@@ -219,18 +210,46 @@ class _EtaGraphPainter extends CustomPainter {
     final earliestEtaXCoordinate =
         (size.width - yAxisXCoordinate) * earliestEtaFraction;
 
-    // FIXME: Should we right align this label? Center it? Something else?
-    // FIXME: Draw this below the latest timestamp if needed to prevent them
-    //        from overlapping
-    earliestEtaTimestampPainter.paint(
-        canvas,
-        Offset(earliestEtaXCoordinate - earliestEtaTimestampPainter.width / 2,
-            size.height - earliestEtaTimestampPainter.height));
+    final firstTimestampX0 = yAxisXCoordinate;
+    final firstTimestampX1 = firstTimestampX0 + firstTimestampPainter.width;
+    var firstTimestampY0 = size.height - firstTimestampPainter.height;
 
-    // FIXME: If we draw the two ETAs at different Y coordinates this
-    // calculation will have to be updated
-    final timestampsTop = size.height -
-        max(firstTimestampPainter.height, latestEtaTimestampPainter.height);
+    final earliestEtaX0 = earliestEtaXCoordinate - earliestEtaPainter.width / 2;
+    final earliestEtaX1 = earliestEtaX0 + earliestEtaPainter.width;
+    var earliestEtaY0 = size.height - earliestEtaPainter.height;
+
+    final latestEtaX0 = size.width - latestEtaPainter.width;
+    final latestEtaX1 = size.width;
+    var latestEtaY0 = size.height - latestEtaPainter.height;
+
+    var firstTimestampYAdjustment = 0.0;
+    if (firstTimestampX1 >= earliestEtaX0) {
+      firstTimestampYAdjustment = earliestEtaPainter.height;
+    }
+
+    var latestEtaYAdjustment = 0.0;
+    if (earliestEtaX1 >= latestEtaX0) {
+      latestEtaYAdjustment = earliestEtaPainter.height;
+    }
+
+    if (firstTimestampYAdjustment > 0 || latestEtaYAdjustment > 0) {
+      // Make room for two different levels of Y coordinates
+      firstTimestampY0 -= earliestEtaPainter.height;
+      earliestEtaY0 -= earliestEtaPainter.height;
+      latestEtaY0 -= earliestEtaPainter.height;
+
+      // Move either of these that need it down
+      firstTimestampY0 += firstTimestampYAdjustment;
+      latestEtaY0 += latestEtaYAdjustment;
+    }
+
+    firstTimestampPainter.paint(
+        canvas, Offset(firstTimestampX0, firstTimestampY0));
+    earliestEtaPainter.paint(canvas, Offset(earliestEtaX0, earliestEtaY0));
+    latestEtaPainter.paint(canvas, Offset(latestEtaX0, latestEtaY0));
+
+    final timestampsTop =
+        [firstTimestampY0, earliestEtaY0, latestEtaY0].reduce(min);
 
     final xAxisYCoordinate = timestampsTop - _numbersToAxesDistance;
 

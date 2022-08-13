@@ -31,9 +31,6 @@ The color theme of the app has to be set in a number of different places:
 ## TODO
 
 - Test graph with both light and dark theme
-- Test graph both while counting up and counting down
-- Test graph with both ETAs being close
-- Test graph with start time and initial ETA being close
 - Don't crash when going to the second screen and then back to the first screen
   again. Right now (on web) we crash on the periodic 0.5s timer.
 - Make a macOS app
@@ -70,3 +67,6 @@ The color theme of the app has to be set in a number of different places:
   reproduced using Chrome on a computer with mobile emulation mode and a narrow
   enough screen.
 - Preserve state even on page reloads
+- Test graph with both ETAs being close
+- Test graph with start time and initial ETA being close
+- Test graph both while counting up and counting down
