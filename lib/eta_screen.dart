@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:waitinator/estimate.dart';
 import 'package:waitinator/eta_state.dart';
+import 'package:waitinator/main.dart';
 
 import 'observation.dart';
 import 'compute_estimate.dart';
-import 'estimate.dart';
 import 'screen_wrapper.dart';
 
 class EtaScreen extends StatefulWidget {
@@ -38,6 +40,8 @@ class _EtaScreenState extends State<EtaScreen> {
   @override
   void initState() {
     super.initState();
+
+    _estimate = computeEstimate(widget._state);
 
     // Tick the _currentTimeText() rendering
     _tickCurrentTimeText = Timer.periodic(
@@ -153,7 +157,8 @@ class _EtaScreenState extends State<EtaScreen> {
 
         setState(() {
           widget._state.add(Observation(DateTime.now(), number));
-          _estimate = estimate(widget._state);
+          GetStorage().write(persistentStateKey, widget._state.serialize());
+          _estimate = computeEstimate(widget._state);
         });
 
         _newObservationController.clear();

@@ -35,7 +35,7 @@ Observation? getLastObservation(EtaState state) {
   }
 }
 
-Estimate? estimate(EtaState state) {
+Estimate? computeEstimate(EtaState state) {
   final first = state[0];
   final last = getLastObservation(state);
   if (last == null) {

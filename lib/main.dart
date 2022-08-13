@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:waitinator/eta_state.dart';
 import 'package:waitinator/observation.dart';
 
 import 'eta_screen.dart';
 import 'screen_wrapper.dart';
 
-void main() {
+const persistentStateKey = "etaState";
+
+void main() async {
+  await GetStorage.init();
+
   const baseColor = Color(0xff0175C2);
 
   runApp(MaterialApp(
@@ -38,6 +43,16 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
   EtaState? _state;
 
   @override
+  void initState() {
+    super.initState();
+
+    String? serializedState = GetStorage().read(persistentStateKey);
+    if (serializedState != null) {
+      _state = EtaState.deserialize(serializedState);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (_state == null) {
       return ScreenWrapper(<Widget>[
@@ -57,6 +72,7 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
     }
 
     return EtaScreen(_state!, () {
+      GetStorage().remove(persistentStateKey);
       setState(() {
         _state = null;
       });
@@ -173,6 +189,7 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
 
         setState(() {
           _state = newState;
+          GetStorage().write(persistentStateKey, newState.serialize());
         });
       },
       child: goText,
