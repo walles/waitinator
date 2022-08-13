@@ -6,11 +6,15 @@ import 'package:waitinator/screen_wrapper.dart';
 class TabbedScreenWrapper extends StatelessWidget {
   final List<Tab> _tabs;
   final List<Widget> _tabViews;
+  final Null Function() _onClose;
 
   /// The [children] will be rendered in a Column.
-  TabbedScreenWrapper(List<Tab> tabs, List<Widget> tabViews, {Key? key})
+  TabbedScreenWrapper(
+      List<Tab> tabs, List<Widget> tabViews, Null Function() onClose,
+      {Key? key})
       : _tabs = tabs,
         _tabViews = tabViews,
+        _onClose = onClose,
         super(key: key) {
     assert(_tabs.length == _tabViews.length,
         'The number of tabs must match the number of views');
@@ -18,6 +22,9 @@ class TabbedScreenWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final closeButton =
+        IconButton(onPressed: _onClose, icon: const Icon(Icons.close));
+
     return DefaultTabController(
         length: _tabs.length,
         child: Scaffold(
@@ -26,6 +33,7 @@ class TabbedScreenWrapper extends StatelessWidget {
             bottom: TabBar(
               tabs: _tabs,
             ),
+            leading: closeButton,
             actions: ScreenWrapper.actions(context),
           ),
           body: Container(

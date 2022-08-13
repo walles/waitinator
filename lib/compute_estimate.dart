@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:meta/meta.dart';
+import 'package:waitinator/eta_state.dart';
 import 'estimate.dart';
 import 'observation.dart';
 
@@ -14,37 +15,36 @@ const _samples = 100;
 /// almost one number off will still work. If we took the latest ones, that
 /// won't hold any more.
 @visibleForTesting
-Observation? getLastObservation(List<Observation> observations) {
-  if (observations.length < 2) {
+Observation? getLastObservation(EtaState state) {
+  if (state.length < 2) {
     return null;
   }
 
-  var lastIndex = observations.length - 1;
+  var lastIndex = state.length - 1;
   while (true) {
     var nextToLastIndex = lastIndex - 1;
     if (nextToLastIndex < 0) {
       return null;
     }
 
-    if (observations[nextToLastIndex].position !=
-        observations[lastIndex].position) {
-      return observations[lastIndex];
+    if (state[nextToLastIndex].position != state[lastIndex].position) {
+      return state[lastIndex];
     }
 
     lastIndex--;
   }
 }
 
-Estimate? estimate(List<Observation> observations, int target) {
-  final first = observations[0];
-  final last = getLastObservation(observations);
+Estimate? computeEstimate(EtaState state) {
+  final first = state[0];
+  final last = getLastObservation(state);
   if (last == null) {
     return null;
   }
 
   final firstLastDtMillis =
       last.timestamp.difference(first.timestamp).inMilliseconds;
-  final direction = first.position < target ? 1 : -1;
+  final direction = first.position < state.target ? 1 : -1;
 
   final List<double> msLeftSamples = [];
   final random = Random();
@@ -57,7 +57,7 @@ Estimate? estimate(List<Observation> observations, int target) {
 
     final velocityMillisecondsPerNumber =
         firstLastDtMillis / (lastPosition - firstPosition).abs();
-    final distanceLeft = (target - lastPosition).abs();
+    final distanceLeft = (state.target - lastPosition).abs();
     final msLeft = distanceLeft * velocityMillisecondsPerNumber;
 
     msLeftSamples.add(msLeft);
@@ -71,8 +71,8 @@ Estimate? estimate(List<Observation> observations, int target) {
   final highSample = msLeftSamples[highIndex];
 
   return Estimate(
-      observations[0].timestamp,
+      state[0].timestamp,
       DateTime.now().add(Duration(milliseconds: lowSample.round())),
       DateTime.now().add(Duration(milliseconds: highSample.round())),
-      target);
+      state.target);
 }

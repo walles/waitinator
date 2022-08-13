@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:waitinator/eta_state.dart';
 
 import 'estimate.dart';
 import 'observation.dart';
@@ -9,11 +10,10 @@ const _numbersToAxesDistance = 5.0;
 const _lineWidth = 2.0;
 
 class EtaGraph extends StatefulWidget {
-  final List<Observation> _observations;
+  final EtaState _state;
   final Estimate _estimate;
-  final int _targetPosition;
 
-  const EtaGraph(this._observations, this._estimate, this._targetPosition,
+  const EtaGraph(this._state, this._estimate,
       {Key? key})
       : super(key: key);
 
@@ -27,29 +27,24 @@ class _EtaGraph extends State<EtaGraph> {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: _EtaGraphPainter(context, widget._observations, widget._estimate,
-          widget._targetPosition),
+      painter: _EtaGraphPainter(context, widget._state, widget._estimate),
     );
   }
 }
 
 class _EtaGraphPainter extends CustomPainter {
-  final List<Observation> _observations;
+  final EtaState _state;
   final Estimate _estimate;
-  final int _targetPosition;
 
   final BuildContext context;
 
-  _EtaGraphPainter(this.context, List<Observation> observations,
-      Estimate estimate, int targetPosition)
-      : _observations = observations,
-        _estimate = estimate,
-        _targetPosition = targetPosition;
+  _EtaGraphPainter(this.context, EtaState state,
+      Estimate estimate)
+      : _state = state,
+        _estimate = estimate;
 
   @override
   void paint(Canvas canvas, Size size) {
-    assert(_observations.isNotEmpty);
-
     // FIXME: Paint the ETA polygon with corners at:
     // * X=[Earliest ETA], Y=[Target number]
     // * X=[Latest ETA], Y=[Target number]
@@ -81,7 +76,7 @@ class _EtaGraphPainter extends CustomPainter {
 
 FIXME: This method doesn't paint anything when I try it
 
-    for (Observation observation in _observations) {
+    for (Observation observation in _state.observations) {
       final dMilliseconds = observation.timestamp
           .difference(_estimate.startedQueueing)
           .inMilliseconds;
@@ -90,7 +85,7 @@ FIXME: This method doesn't paint anything when I try it
       final xFraction = dMilliseconds / latestDMilliseconds;
       final xCoordinate = bounds.width * xFraction;
 
-      final yHeight = _targetPosition - _observations.first.position;
+      final yHeight = _state.target - _state[0].position;
       final yFraction0 = observation.position / yHeight;
       final y0 = bounds.height * yFraction0;
 
@@ -98,7 +93,7 @@ FIXME: This method doesn't paint anything when I try it
       // illustrate we can't know whether we just switched into this
       // observation, or whether we are just about to switch to the next.
       final int direction;
-      if (_targetPosition > observation.position) {
+      if (_state.target > observation.position) {
         direction = 1;
       } else {
         direction = -1;
@@ -186,9 +181,9 @@ FIXME: This method doesn't paint anything when I try it
         _toPainter(Estimate.hhmm.format(_estimate.latest), size, forecastColor);
 
     final firstNumberPainter =
-        _toPainter(_observations.first.position.toString(), size);
+        _toPainter(_state[0].position.toString(), size);
     final lastNumberPainter =
-        _toPainter(_observations.last.position.toString(), size);
+        _toPainter(_state.last.position.toString(), size);
 
     final numbersRightmostX =
         max(firstNumberPainter.width, lastNumberPainter.width);

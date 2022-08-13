@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:waitinator/eta_state.dart';
+import 'package:waitinator/observation.dart';
 
 import 'eta_screen.dart';
 import 'screen_wrapper.dart';
 
-void main() {
+const persistentStateKey = "etaState";
+
+void main() async {
+  await GetStorage.init();
+
   const baseColor = Color(0xff0175C2);
 
   runApp(MaterialApp(
@@ -33,23 +40,43 @@ class WaitinatorApp extends StatefulWidget {
 class _WaitinatorAppState extends State<WaitinatorApp> {
   String _positionIWantToGetTo = "";
   String _currentPosition = "";
+  EtaState? _state;
+
+  @override
+  void initState() {
+    super.initState();
+
+    String? serializedState = GetStorage().read(persistentStateKey);
+    if (serializedState != null) {
+      _state = EtaState.deserialize(serializedState);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ScreenWrapper(<Widget>[
-      _positionIWantToGetToWidget(),
-      _currentPositionWidget(),
-      const SizedBox(
-          height:
-              20 // FIXME: What is the unit here? How will this look on different devices?
-          ),
-      _explanationWidget(),
-      const SizedBox(
-          height:
-              20 // FIXME: What is the unit here? How will this look on different devices?
-          ),
-      _startButton(),
-    ]);
+    if (_state == null) {
+      return ScreenWrapper(<Widget>[
+        _positionIWantToGetToWidget(),
+        _currentPositionWidget(),
+        const SizedBox(
+            height:
+                20 // FIXME: What is the unit here? How will this look on different devices?
+            ),
+        _explanationWidget(),
+        const SizedBox(
+            height:
+                20 // FIXME: What is the unit here? How will this look on different devices?
+            ),
+        _startButton(),
+      ]);
+    }
+
+    return EtaScreen(_state!, () {
+      GetStorage().remove(persistentStateKey);
+      setState(() {
+        _state = null;
+      });
+    });
   }
 
   /// "Number I want to get to: ___"
@@ -153,17 +180,19 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
     }
 
     return ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute<void>(
-              builder: (context) {
-                var target = int.parse(_positionIWantToGetTo);
-                var current = int.parse(_currentPosition);
-                return EtaScreen(target, current);
-              },
-            ),
-          );
-        },
-        child: goText);
+      onPressed: () {
+        var target = int.parse(_positionIWantToGetTo);
+        var current = int.parse(_currentPosition);
+
+        final newState = EtaState(target);
+        newState.add(Observation(DateTime.now(), current));
+
+        setState(() {
+          _state = newState;
+          GetStorage().write(persistentStateKey, newState.serialize());
+        });
+      },
+      child: goText,
+    );
   }
 }
