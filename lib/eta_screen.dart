@@ -139,9 +139,7 @@ class _EtaScreenState extends State<EtaScreen> {
 
   TextField _newObservationEntry() {
     final lastPosition = widget._state.last.position;
-    final examplePosition = (widget._state.target < lastPosition)
-        ? lastPosition - 1
-        : lastPosition + 1;
+    final examplePosition = lastPosition + widget._state.direction;
     // FIXME: Disable this box if we're too close to the target
 
     return TextField(
