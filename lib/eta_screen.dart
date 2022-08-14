@@ -5,13 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:waitinator/eta_graph.dart';
 import 'package:waitinator/estimate.dart';
 import 'package:waitinator/eta_state.dart';
 import 'package:waitinator/main.dart';
 
 import 'observation.dart';
 import 'compute_estimate.dart';
-import 'screen_wrapper.dart';
+import 'tabbed_screen_wrapper.dart';
 
 class EtaScreen extends StatefulWidget {
   final EtaState _state;
@@ -63,14 +64,34 @@ class _EtaScreenState extends State<EtaScreen> {
       );
     }
 
-    return ScreenWrapper(<Widget>[
+    var numbersTab =
+        Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       estimateWidget,
       const SizedBox(
           height:
               20 // FIXME: What is the unit here? How will this look on different devices?
           ),
       _renderObservations(),
-    ], onClose: () {
+    ]);
+
+    final Widget etaGraphWidget;
+    if (_estimate == null) {
+      etaGraphWidget = const Text(""
+          "Need more observations.\n"
+          "\n"
+          "Go back to the observations entry tab and enter the next position"
+          ", then I'll get you a graph!");
+    } else {
+      etaGraphWidget = EtaGraph(widget._state, _estimate!);
+    }
+
+    return TabbedScreenWrapper(const [
+      Tab(icon: Icon(Icons.format_list_numbered)),
+      Tab(icon: Icon(Icons.show_chart)),
+    ], [
+      numbersTab,
+      etaGraphWidget,
+    ], () {
       _tickCurrentTimeText.cancel();
       widget._onClose();
     });
@@ -116,9 +137,7 @@ class _EtaScreenState extends State<EtaScreen> {
 
   TextField _newObservationEntry() {
     final lastPosition = widget._state.last.position;
-    final examplePosition = (widget._state.target < lastPosition)
-        ? lastPosition - 1
-        : lastPosition + 1;
+    final examplePosition = lastPosition + widget._state.direction;
     // FIXME: Disable this box if we're too close to the target
 
     return TextField(

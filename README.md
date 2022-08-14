@@ -30,8 +30,12 @@ The color theme of the app has to be set in a number of different places:
 
 ## TODO
 
-- Don't crash when going to the second screen and then back to the first screen
-  again. Right now (on web) we crash on the periodic 0.5s timer.
+- Replace the ETA algorithm. We should use the least-squares method to get a
+  line through all points, then pick the ETA span so that 90% or more of all
+  observations end up between the lines. Each observation should count as two
+  points, one at the actual number and one at the next number.
+- Make a macOS app
+- Reloading the app when it was on the Graph tab should keep it on the Graph tab
 - Add a version / build number on the info screen, verify on both web and
   Android
 - Hint user to provide more observations if the two ETAs are "too far" apart
@@ -63,3 +67,9 @@ The color theme of the app has to be set in a number of different places:
   reproduced using Chrome on a computer with mobile emulation mode and a narrow
   enough screen.
 - Preserve state even on page reloads
+- Test graph with both ETAs being close
+- Test graph with start time and initial ETA being close
+- Test graph both while counting up and counting down
+- Test graph with both light and dark theme
+- Don't crash when going to the second screen and then back to the first screen
+  again. On web, we used to crash on the periodic 0.5s timer.

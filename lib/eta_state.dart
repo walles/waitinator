@@ -12,8 +12,21 @@ class EtaState {
     return _observations.reversed;
   }
 
+  Iterable<Observation> get observations {
+    return _observations;
+  }
+
   Observation get last {
     return _observations.last;
+  }
+
+  /// `1` if counting up, `-1` if counting down
+  int get direction {
+    if (target > _observations[0].position) {
+      return 1;
+    }
+
+    return -1;
   }
 
   void add(Observation observation) {
