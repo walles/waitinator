@@ -74,8 +74,6 @@ class _EtaScreenState extends State<EtaScreen> {
       _renderObservations(),
     ]);
 
-    // FIXME: Or should we just disable the tab when we don't have any ETA? Or
-    // just not draw the ETA in the graph?
     final Widget etaGraphWidget;
     if (_estimate == null) {
       etaGraphWidget = const Text(""

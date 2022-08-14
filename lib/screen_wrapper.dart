@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// See also `TabbedScreenWrapper`
 class ScreenWrapper extends StatelessWidget {
   final List<Widget> _children;
 

@@ -226,7 +226,6 @@ class _EtaGraphPainter extends CustomPainter {
     var earliestEtaY0 = size.height - earliestEtaPainter.height;
 
     final latestEtaX0 = size.width - latestEtaPainter.width;
-    final latestEtaX1 = size.width;
     var latestEtaY0 = size.height - latestEtaPainter.height;
 
     var firstTimestampYAdjustment = 0.0;

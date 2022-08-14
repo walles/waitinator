@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:waitinator/screen_wrapper.dart';
 
-// FIXME: Merge this class with ScreenWrapper? They are similar.
-
+/// See also `ScreenWrapper`
 class TabbedScreenWrapper extends StatelessWidget {
   final List<Tab> _tabs;
   final List<Widget> _tabViews;
