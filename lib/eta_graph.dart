@@ -62,8 +62,15 @@ class _EtaGraphPainter extends CustomPainter {
   }
 
   void _paintEtaPolygon(Canvas canvas, Rect bounds) {
+    // Pick a color between background and onBackground. "0.25" is from manual
+    // testing, I found being that close to the background color looked good for
+    // both light and dark UI themes.
+    final colorScheme = Theme.of(context).colorScheme;
+    final color =
+        Color.lerp(colorScheme.background, colorScheme.onBackground, 0.25);
+
     final paint = Paint()
-      ..color = Theme.of(context).colorScheme.surface
+      ..color = color!
       ..style = PaintingStyle.fill;
 
     // Source of inspiration:
