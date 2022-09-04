@@ -1,5 +1,6 @@
 import 'package:test/test.dart';
 import 'package:waitinator/compute_estimate.dart';
+import 'package:waitinator/estimate.dart';
 import 'package:waitinator/eta_state.dart';
 import 'package:waitinator/observation.dart';
 
@@ -43,5 +44,22 @@ void main() {
     state.add(Observation(DateTime.now(), 1));
 
     expect(getLastObservation(state), isNull);
+  });
+
+  test('Reasonable estimate for predictable samples series', () {
+    final t0 = DateTime.fromMillisecondsSinceEpoch(0);
+    final state = EtaState(4);
+    state.add(Observation(t0.add(const Duration(minutes: 1)), 1));
+    state.add(Observation(t0.add(const Duration(minutes: 2)), 2));
+
+    final expectedEta = t0.add(const Duration(minutes: 4));
+    final actualEta = computeEstimate(state);
+
+    expect(actualEta!.earliest.isBefore(expectedEta), isTrue,
+        reason:
+            "Earliest ETA ${actualEta.earliest} should have been before $expectedEta");
+    expect(actualEta.latest.isAfter(expectedEta), isTrue,
+        reason:
+            "Latest ETA ${actualEta.latest} should have been after $expectedEta");
   });
 }

@@ -45,7 +45,7 @@ Estimate? computeEstimate(EtaState state) {
   final firstLastDtMillis =
       last.timestamp.difference(first.timestamp).inMilliseconds;
 
-  final List<double> msLeftSamples = [];
+  final List<double> msFromStartSamples = [];
   final random = Random();
   for (var i = 0; i < _samples; i = i + 1) {
     // Let's say we're going to 100, and the user reports 53. We still don't
@@ -57,22 +57,23 @@ Estimate? computeEstimate(EtaState state) {
 
     final velocityMillisecondsPerNumber =
         firstLastDtMillis / (lastPosition - firstPosition).abs();
-    final distanceLeft = (state.target - lastPosition).abs();
-    final msLeft = distanceLeft * velocityMillisecondsPerNumber;
+    final distanceFromStart = (state.target - firstPosition).abs();
+    final msFromStart = distanceFromStart * velocityMillisecondsPerNumber;
 
-    msLeftSamples.add(msLeft);
+    msFromStartSamples.add(msFromStart);
   }
 
-  msLeftSamples.sort();
-  final samplesToIgnore = ((100 - _percentile) * msLeftSamples.length) ~/ 100;
+  msFromStartSamples.sort();
+  final samplesToIgnore =
+      ((100 - _percentile) * msFromStartSamples.length) ~/ 100;
   final samplesToIgnoreAtEachEnd = samplesToIgnore ~/ 2;
-  final lowSample = msLeftSamples[samplesToIgnoreAtEachEnd];
-  final highIndex = msLeftSamples.length - 1 - samplesToIgnoreAtEachEnd;
-  final highSample = msLeftSamples[highIndex];
+  final lowMsFromStart = msFromStartSamples[samplesToIgnoreAtEachEnd];
+  final highIndex = msFromStartSamples.length - 1 - samplesToIgnoreAtEachEnd;
+  final highMsFromStart = msFromStartSamples[highIndex];
 
   return Estimate(
       state[0].timestamp,
-      DateTime.now().add(Duration(milliseconds: lowSample.round())),
-      DateTime.now().add(Duration(milliseconds: highSample.round())),
+      state[0].timestamp.add(Duration(milliseconds: lowMsFromStart.round())),
+      state[0].timestamp.add(Duration(milliseconds: highMsFromStart.round())),
       state.target);
 }
