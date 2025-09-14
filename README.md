@@ -20,7 +20,15 @@ Use case:
 
 Ref: <https://docs.flutter.dev/>
 
-## Color Theme
+## Development
+
+Lint and test:
+
+```
+flutter analyze && flutter test
+```
+
+### Color Theme
 
 The color theme of the app has to be set in a number of different places:
 

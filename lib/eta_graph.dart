@@ -13,7 +13,7 @@ class EtaGraph extends StatefulWidget {
   final EtaState _state;
   final Estimate _estimate;
 
-  const EtaGraph(this._state, this._estimate, {Key? key}) : super(key: key);
+  const EtaGraph(this._state, this._estimate, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -62,12 +62,11 @@ class _EtaGraphPainter extends CustomPainter {
   }
 
   void _paintEtaPolygon(Canvas canvas, Rect bounds) {
-    // Pick a color between background and onBackground. "0.25" is from manual
+    // Pick a color between background and onSurface. "0.25" is from manual
     // testing, I found being that close to the background color looked good for
     // both light and dark UI themes.
     final colorScheme = Theme.of(context).colorScheme;
-    final color =
-        Color.lerp(colorScheme.background, colorScheme.onBackground, 0.25);
+    final color = Color.lerp(colorScheme.surface, colorScheme.onSurface, 0.25);
 
     final paint = Paint()
       ..color = color!
@@ -120,7 +119,7 @@ class _EtaGraphPainter extends CustomPainter {
   void _paintSamples(Canvas canvas, Rect bounds) {
     final paint = Paint()
       ..strokeWidth = _lineWidth * 2
-      ..color = Theme.of(context).colorScheme.onBackground
+      ..color = Theme.of(context).colorScheme.onSurface
       ..style = PaintingStyle.stroke;
 
     for (Observation observation in _state.observations) {
@@ -139,7 +138,7 @@ class _EtaGraphPainter extends CustomPainter {
   void _paintAxes(Canvas canvas, Rect bounds) {
     final paint = Paint()
       ..strokeWidth = _lineWidth
-      ..color = Theme.of(context).colorScheme.onBackground
+      ..color = Theme.of(context).colorScheme.onSurface
       ..style = PaintingStyle.stroke;
 
     // X axis
@@ -170,7 +169,7 @@ class _EtaGraphPainter extends CustomPainter {
 
   TextPainter _toPainter(String text, Size size, [Color? color]) {
     final style = TextStyle(
-      color: color ?? Theme.of(context).colorScheme.onBackground,
+      color: color ?? Theme.of(context).colorScheme.onSurface,
       fontSize: 15, // FIXME: What is a good number?
     );
 

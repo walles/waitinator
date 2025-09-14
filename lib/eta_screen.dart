@@ -20,10 +20,9 @@ class EtaScreen extends StatefulWidget {
 
   /// `onClose()` will be called when the top-left-corner-X is pressed, after
   /// the `EtaScreen` finishes shutting down.
-  const EtaScreen(EtaState state, Null Function() onClose, {Key? key})
+  const EtaScreen(EtaState state, Null Function() onClose, {super.key})
       : _state = state,
-        _onClose = onClose,
-        super(key: key);
+        _onClose = onClose;
 
   @override
   State<EtaScreen> createState() => _EtaScreenState();
