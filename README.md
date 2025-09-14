@@ -28,6 +28,20 @@ Lint and test:
 flutter analyze && flutter test
 ```
 
+Easiest run is to do it from VSCode, just use the launch config.
+
+Otherwise, from the command line:
+
+```
+flutter run
+```
+
+To exercise the Android build:
+
+```
+flutter build appbundle
+```
+
 ### Color Theme
 
 The color theme of the app has to be set in a number of different places:
