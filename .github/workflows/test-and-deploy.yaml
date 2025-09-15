@@ -14,7 +14,7 @@ jobs:
       - run: flutter test
 
       # Deploy new main commits to Github pages
-      - uses: bluefireteam/flutter-gh-pages@v7
+      - uses: bluefireteam/flutter-gh-pages@v9
         if: github.ref == 'refs/heads/main'
         with:
           baseHref: /waitinator/
