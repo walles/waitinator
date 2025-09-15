@@ -14,7 +14,8 @@ void main() {
         equals('You will get to 200 in\n'
             'between 4min, at 12:39\n'
             'and 7min, at 12:42\n'
-            'for a total queue time of 5min-8min'));
+            'for a total queue time of 5min-8min.\n'
+            'Iteration time is between 33s and 44s.'));
   });
 
   test("Estimate.toString() nicely renders when we're inside of the ETA zone",
@@ -29,7 +30,8 @@ void main() {
         estimate.toString(),
         equals('You will get to 200 in\n'
             '2min, at 12:42\n'
-            'for a total queue time of 8min'));
+            'for a total queue time of 8min.\n'
+            'Iteration time is between 33s and 44s.'));
   });
 
   test("Estimate.toString() nicely renders when we're after the ETA", () {
@@ -43,6 +45,7 @@ void main() {
         estimate.toString(),
         equals('You should have arrived at 200\n'
             '2min ago, at 12:42\n'
-            'for a total queue time of 8min'));
+            'for a total queue time of 8min.\n'
+            'Iteration time was between 33s and 44s.'));
   });
 }
