@@ -1,6 +1,5 @@
 import 'package:test/test.dart';
 import 'package:waitinator/compute_estimate.dart';
-import 'package:waitinator/estimate.dart';
 import 'package:waitinator/eta_state.dart';
 import 'package:waitinator/observation.dart';
 

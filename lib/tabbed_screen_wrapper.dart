@@ -10,11 +10,10 @@ class TabbedScreenWrapper extends StatelessWidget {
   /// The [children] will be rendered in a Column.
   TabbedScreenWrapper(
       List<Tab> tabs, List<Widget> tabViews, Null Function() onClose,
-      {Key? key})
+      {super.key})
       : _tabs = tabs,
         _tabViews = tabViews,
-        _onClose = onClose,
-        super(key: key) {
+        _onClose = onClose {
     assert(_tabs.length == _tabViews.length,
         'The number of tabs must match the number of views');
   }

@@ -9,9 +9,8 @@ class ScreenWrapper extends StatelessWidget {
   final List<Widget> _children;
 
   /// The [children] will be rendered in a Column.
-  const ScreenWrapper(List<Widget> children, {Key? key})
-      : _children = children,
-        super(key: key);
+  const ScreenWrapper(List<Widget> children, {super.key})
+      : _children = children;
 
   @override
   Widget build(BuildContext context) {

@@ -29,7 +29,7 @@ void main() async {
 }
 
 class WaitinatorApp extends StatefulWidget {
-  const WaitinatorApp({Key? key}) : super(key: key);
+  const WaitinatorApp({super.key});
 
   @override
   State<StatefulWidget> createState() {
