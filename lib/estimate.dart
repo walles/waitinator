@@ -10,8 +10,15 @@ class Estimate {
   static final hhmm = DateFormat.Hm();
 
   /// The [startedQueueing] parameter is when the user first entered the queue.
+  ///
   /// The [now] parameter overrides using DateTime.now() in toString(), and is
   /// used in testing.
+  ///
+  /// [earliest] and [latest] are the estimated time range when the user will
+  /// reach the target.
+  ///
+  /// [_iterLow] and [_iterHigh] are the lowest and highest estimates for the
+  /// per-iteration duration
   Estimate(this.startedQueueing, this.earliest, this.latest, this._target,
       {DateTime? now})
       : _now = now;
