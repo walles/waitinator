@@ -6,7 +6,7 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:waitinator/eta_graph.dart';
-import 'package:waitinator/estimate.dart';
+import 'package:waitinator/estimate_renderer.dart';
 import 'package:waitinator/eta_state.dart';
 import 'package:waitinator/main.dart';
 
@@ -29,7 +29,7 @@ class EtaScreen extends StatefulWidget {
 }
 
 class _EtaScreenState extends State<EtaScreen> {
-  Estimate? _estimate;
+  EstimateRenderer? _estimate;
 
   final _hhmmss = DateFormat.Hms();
   final _newObservationController = TextEditingController();

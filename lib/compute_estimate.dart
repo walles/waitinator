@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:meta/meta.dart';
 import 'package:waitinator/eta_state.dart';
-import 'estimate.dart';
+import 'estimate_renderer.dart';
 import 'observation.dart';
 
 const _percentile = 90;
@@ -41,7 +41,7 @@ class _Sample {
   _Sample(this.msFromStart, this.msPerIteration);
 }
 
-Estimate? computeEstimate(EtaState state) {
+EstimateRenderer? computeEstimate(EtaState state) {
   final firstObservation = state[0];
   final lastObservation = getLastObservation(state);
   if (lastObservation == null) {
@@ -81,7 +81,7 @@ Estimate? computeEstimate(EtaState state) {
   final slowIndex = msFromStartSamples.length - 1 - samplesToIgnoreAtEachEnd;
   final slow = msFromStartSamples[slowIndex];
 
-  return Estimate(
+  return EstimateRenderer(
       firstObservation.timestamp,
       firstObservation.timestamp
           .add(Duration(milliseconds: fast.msFromStart.round())),

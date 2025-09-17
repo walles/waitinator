@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class Estimate {
+class EstimateRenderer {
   final DateTime startedQueueing;
   final DateTime earliest;
   final DateTime latest;
@@ -21,8 +21,8 @@ class Estimate {
   ///
   /// [_iterLow] and [_iterHigh] are the lowest and highest estimates for the
   /// per-iteration duration
-  Estimate(this.startedQueueing, this.earliest, this.latest, this._target,
-      this._fastIteration, this._slowIteration,
+  EstimateRenderer(this.startedQueueing, this.earliest, this.latest,
+      this._target, this._fastIteration, this._slowIteration,
       {DateTime? now})
       : _now = now;
 

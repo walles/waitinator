@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:waitinator/estimate.dart';
+import 'package:waitinator/estimate_renderer.dart';
 
 void main() {
   test('Estimate.toString() nicely renders an upcoming ETA', () {
@@ -8,7 +8,7 @@ void main() {
     final earliest = DateTime.parse("2020-02-02T12:39:56");
     final latest = DateTime.parse("2020-02-02T12:42:56");
 
-    final estimate = Estimate(start, earliest, latest, 200, now: now);
+    final estimate = EstimateRenderer(start, earliest, latest, 200, now: now);
     expect(
         estimate.toString(),
         equals('You will get to 200 in\n'
@@ -25,7 +25,7 @@ void main() {
     final now = DateTime.parse("2020-02-02T12:40:56");
     final latest = DateTime.parse("2020-02-02T12:42:56");
 
-    final estimate = Estimate(start, earliest, latest, 200, now: now);
+    final estimate = EstimateRenderer(start, earliest, latest, 200, now: now);
     expect(
         estimate.toString(),
         equals('You will get to 200 in\n'
@@ -40,7 +40,7 @@ void main() {
     final latest = DateTime.parse("2020-02-02T12:42:56");
     final now = DateTime.parse("2020-02-02T12:44:56");
 
-    final estimate = Estimate(start, earliest, latest, 200, now: now);
+    final estimate = EstimateRenderer(start, earliest, latest, 200, now: now);
     expect(
         estimate.toString(),
         equals('You should have arrived at 200\n'

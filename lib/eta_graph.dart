@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:waitinator/eta_state.dart';
 
-import 'estimate.dart';
+import 'estimate_renderer.dart';
 import 'observation.dart';
 
 const _numbersToAxesDistance = 5.0;
@@ -11,7 +11,7 @@ const _lineWidth = 2.0;
 
 class EtaGraph extends StatefulWidget {
   final EtaState _state;
-  final Estimate _estimate;
+  final EstimateRenderer _estimate;
 
   const EtaGraph(this._state, this._estimate, {super.key});
 
@@ -32,11 +32,11 @@ class _EtaGraph extends State<EtaGraph> {
 
 class _EtaGraphPainter extends CustomPainter {
   final EtaState _state;
-  final Estimate _estimate;
+  final EstimateRenderer _estimate;
 
   final BuildContext context;
 
-  _EtaGraphPainter(this.context, EtaState state, Estimate estimate)
+  _EtaGraphPainter(this.context, EtaState state, EstimateRenderer estimate)
       : _state = state,
         _estimate = estimate;
 
@@ -201,12 +201,12 @@ class _EtaGraphPainter extends CustomPainter {
         max(lowestNumberPainter.width, highestNumberPainter.width);
     final yAxisXCoordinate = numbersRightmostX + _numbersToAxesDistance;
 
-    final firstTimestampPainter =
-        _toPainter(Estimate.hhmm.format(_estimate.startedQueueing), size);
-    final earliestEtaPainter =
-        _toPainter(Estimate.hhmm.format(_estimate.earliest), size, etaColor);
-    final latestEtaPainter =
-        _toPainter(Estimate.hhmm.format(_estimate.latest), size, etaColor);
+    final firstTimestampPainter = _toPainter(
+        EstimateRenderer.hhmm.format(_estimate.startedQueueing), size);
+    final earliestEtaPainter = _toPainter(
+        EstimateRenderer.hhmm.format(_estimate.earliest), size, etaColor);
+    final latestEtaPainter = _toPainter(
+        EstimateRenderer.hhmm.format(_estimate.latest), size, etaColor);
 
     final earliestDMilliseconds =
         _estimate.earliest.difference(_estimate.startedQueueing).inMilliseconds;
