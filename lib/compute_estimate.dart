@@ -35,45 +35,59 @@ Observation? getLastObservation(EtaState state) {
   }
 }
 
+class _Sample {
+  final double msFromStart;
+  final double msPerIteration;
+  _Sample(this.msFromStart, this.msPerIteration);
+}
+
 Estimate? computeEstimate(EtaState state) {
-  final first = state[0];
-  final last = getLastObservation(state);
-  if (last == null) {
+  final firstObservation = state[0];
+  final lastObservation = getLastObservation(state);
+  if (lastObservation == null) {
     return null;
   }
 
-  final firstLastDtMillis =
-      last.timestamp.difference(first.timestamp).inMilliseconds;
+  final firstLastDtMillis = lastObservation.timestamp
+      .difference(firstObservation.timestamp)
+      .inMilliseconds;
 
-  final List<double> msFromStartSamples = [];
+  // A list of estimates of how many milliseconds it will take to get from the
+  // initial timestamp to the target number.
+  final List<_Sample> msFromStartSamples = [];
   final random = Random();
   for (var i = 0; i < _samples; i = i + 1) {
     // Let's say we're going to 100, and the user reports 53. We still don't
     // know whether the number just switched to 53, or whether it was just about
     // to go to 54. Therefore we add a random bonus to the reported numbers.
     final firstPosition =
-        first.position + random.nextDouble() * state.direction;
-    final lastPosition = last.position + random.nextDouble() * state.direction;
+        firstObservation.position + random.nextDouble() * state.direction;
+    final lastPosition =
+        lastObservation.position + random.nextDouble() * state.direction;
 
     final velocityMillisecondsPerNumber =
         firstLastDtMillis / (lastPosition - firstPosition).abs();
     final distanceFromStart = (state.target - firstPosition).abs();
     final msFromStart = distanceFromStart * velocityMillisecondsPerNumber;
 
-    msFromStartSamples.add(msFromStart);
+    msFromStartSamples.add(_Sample(msFromStart, velocityMillisecondsPerNumber));
   }
 
-  msFromStartSamples.sort();
+  msFromStartSamples.sort((a, b) => a.msFromStart.compareTo(b.msFromStart));
   final samplesToIgnore =
       ((100 - _percentile) * msFromStartSamples.length) ~/ 100;
   final samplesToIgnoreAtEachEnd = samplesToIgnore ~/ 2;
-  final lowMsFromStart = msFromStartSamples[samplesToIgnoreAtEachEnd];
-  final highIndex = msFromStartSamples.length - 1 - samplesToIgnoreAtEachEnd;
-  final highMsFromStart = msFromStartSamples[highIndex];
+  final fast = msFromStartSamples[samplesToIgnoreAtEachEnd];
+  final slowIndex = msFromStartSamples.length - 1 - samplesToIgnoreAtEachEnd;
+  final slow = msFromStartSamples[slowIndex];
 
   return Estimate(
-      state[0].timestamp,
-      state[0].timestamp.add(Duration(milliseconds: lowMsFromStart.round())),
-      state[0].timestamp.add(Duration(milliseconds: highMsFromStart.round())),
-      state.target);
+      firstObservation.timestamp,
+      firstObservation.timestamp
+          .add(Duration(milliseconds: fast.msFromStart.round())),
+      firstObservation.timestamp
+          .add(Duration(milliseconds: slow.msFromStart.round())),
+      state.target,
+      Duration(milliseconds: fast.msPerIteration.round()),
+      Duration(milliseconds: slow.msPerIteration.round()));
 }

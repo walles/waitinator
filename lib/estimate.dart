@@ -6,6 +6,8 @@ class Estimate {
   final DateTime latest;
   final DateTime? _now;
   final int _target;
+  final Duration _fastIteration;
+  final Duration _slowIteration;
 
   static final hhmm = DateFormat.Hm();
 
@@ -20,6 +22,7 @@ class Estimate {
   /// [_iterLow] and [_iterHigh] are the lowest and highest estimates for the
   /// per-iteration duration
   Estimate(this.startedQueueing, this.earliest, this.latest, this._target,
+      this._fastIteration, this._slowIteration,
       {DateTime? now})
       : _now = now;
 
