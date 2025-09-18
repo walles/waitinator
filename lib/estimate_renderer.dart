@@ -46,7 +46,7 @@ class EstimateRenderer {
     return "You will get to $_target in\n"
         "between ${renderDuration(remainingLow)}, at ${hhmm.format(earliest)}\n"
         "and ${renderDuration(remainingHigh)}, at ${hhmm.format(latest)}\n"
-        "for a total queue time of ${renderDuration(totalLow)}-${renderDuration(totalHigh)}.\n"
+        "for a total queue time of ${renderDurationRange(totalLow, totalHigh)}.\n"
         "Iteration time is ${renderDurationRange(_fastIteration, _slowIteration)}.";
   }
 
@@ -72,7 +72,7 @@ class EstimateRenderer {
     if (low == high) {
       return renderDuration(low);
     }
-    return "between ${renderDuration(low)} and ${renderDuration(high)}";
+    return "${renderDuration(low)}-${renderDuration(high)}";
   }
 
   static String renderDuration(Duration duration) {
