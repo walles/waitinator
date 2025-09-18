@@ -1,0 +1,92 @@
+import 'package:intl/intl.dart';
+
+class EstimateRenderer {
+  final DateTime startedQueueing;
+  final DateTime earliest;
+  final DateTime latest;
+  final DateTime? _now;
+  final int _target;
+  final Duration _fastIteration;
+  final Duration _slowIteration;
+
+  static final hhmm = DateFormat.Hm();
+
+  /// The [startedQueueing] parameter is when the user first entered the queue.
+  ///
+  /// The [now] parameter overrides using DateTime.now() in toString(), and is
+  /// used in testing.
+  ///
+  /// [earliest] and [latest] are the estimated time range when the user will
+  /// reach the target.
+  ///
+  /// [_iterLow] and [_iterHigh] are the lowest and highest estimates for the
+  /// per-iteration duration
+  EstimateRenderer(this.startedQueueing, this.earliest, this.latest,
+      this._target, this._fastIteration, this._slowIteration,
+      {DateTime? now})
+      : _now = now;
+
+  /// Returns a multiline description on when this will happen
+  @override
+  String toString() {
+    final now = _now ?? DateTime.now();
+
+    if (earliest.isBefore(now) && now.isBefore(latest)) {
+      return _toInBetweenString(now);
+    }
+
+    if (!now.isBefore(latest)) {
+      return _toAfterString(now);
+    }
+
+    final remainingLow = earliest.difference(now);
+    final remainingHigh = latest.difference(now);
+    final totalLow = earliest.difference(startedQueueing);
+    final totalHigh = latest.difference(startedQueueing);
+    return "You will get to $_target in\n"
+        "between ${renderDuration(remainingLow)}, at ${hhmm.format(earliest)}\n"
+        "and ${renderDuration(remainingHigh)}, at ${hhmm.format(latest)}\n"
+        "for a total queue time of ${renderDurationRange(totalLow, totalHigh)}.\n"
+        "Iteration time is ${renderDurationRange(_fastIteration, _slowIteration)}.";
+  }
+
+  String _toInBetweenString(DateTime now) {
+    final remaining = latest.difference(now);
+    final total = latest.difference(startedQueueing);
+    return "You will get to $_target in\n"
+        "${renderDuration(remaining)}, at ${hhmm.format(latest)}\n"
+        "for a total queue time of ${renderDuration(total)}.\n"
+        "Iteration time is ${renderDurationRange(_fastIteration, _slowIteration)}.";
+  }
+
+  String _toAfterString(DateTime now) {
+    final ago = now.difference(latest);
+    final total = latest.difference(startedQueueing);
+    return "You should have arrived at $_target\n"
+        "${renderDuration(ago)} ago, at ${hhmm.format(latest)}\n"
+        "for a total queue time of ${renderDuration(total)}.\n"
+        "Iteration time was ${renderDurationRange(_fastIteration, _slowIteration)}.";
+  }
+
+  static String renderDurationRange(Duration low, Duration high) {
+    if (low == high) {
+      return renderDuration(low);
+    }
+    return "${renderDuration(low)}-${renderDuration(high)}";
+  }
+
+  static String renderDuration(Duration duration) {
+    var minutesLeft = duration.inMinutes;
+    if (minutesLeft >= 60) {
+      final int hoursLeft = minutesLeft ~/ 60;
+      final int actualMinutesLeft = minutesLeft - hoursLeft * 60;
+      return "${hoursLeft}h${actualMinutesLeft}min";
+    }
+
+    if (minutesLeft >= 1) {
+      return "${minutesLeft}min";
+    }
+
+    return "${duration.inSeconds}s";
+  }
+}
