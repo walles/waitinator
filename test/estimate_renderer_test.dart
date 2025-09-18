@@ -54,4 +54,13 @@ void main() {
             'for a total queue time of 8min.\n'
             'Iteration time was between 33s and 44s.'));
   });
+
+  test("Render some durations", () {
+    expect(EstimateRenderer.renderDuration(Duration(minutes: 61)),
+        equals("1h1min"));
+    expect(
+        EstimateRenderer.renderDuration(Duration(seconds: 60)), equals("1min"));
+    expect(
+        EstimateRenderer.renderDuration(Duration(seconds: 59)), equals("59s"));
+  });
 }

@@ -44,37 +44,41 @@ class EstimateRenderer {
     final totalLow = earliest.difference(startedQueueing);
     final totalHigh = latest.difference(startedQueueing);
     return "You will get to $_target in\n"
-        "between ${_renderDuration(remainingLow)}, at ${hhmm.format(earliest)}\n"
-        "and ${_renderDuration(remainingHigh)}, at ${hhmm.format(latest)}\n"
-        "for a total queue time of ${_renderDuration(totalLow)}-${_renderDuration(totalHigh)}";
+        "between ${renderDuration(remainingLow)}, at ${hhmm.format(earliest)}\n"
+        "and ${renderDuration(remainingHigh)}, at ${hhmm.format(latest)}\n"
+        "for a total queue time of ${renderDuration(totalLow)}-${renderDuration(totalHigh)}.\n"
+        "Iteration time is between ${renderDuration(_fastIteration)} and ${renderDuration(_slowIteration)}.";
   }
 
   String _toInBetweenString(DateTime now) {
     final remaining = latest.difference(now);
     final total = latest.difference(startedQueueing);
     return "You will get to $_target in\n"
-        "${_renderDuration(remaining)}, at ${hhmm.format(latest)}\n"
-        "for a total queue time of ${_renderDuration(total)}";
+        "${renderDuration(remaining)}, at ${hhmm.format(latest)}\n"
+        "for a total queue time of ${renderDuration(total)}\n"
+        "Iteration time is between ${renderDuration(_fastIteration)} and ${renderDuration(_slowIteration)}.";
   }
 
   String _toAfterString(DateTime now) {
     final ago = now.difference(latest);
     final total = latest.difference(startedQueueing);
     return "You should have arrived at $_target\n"
-        "${_renderDuration(ago)} ago, at ${hhmm.format(latest)}\n"
-        "for a total queue time of ${_renderDuration(total)}";
+        "${renderDuration(ago)} ago, at ${hhmm.format(latest)}\n"
+        "for a total queue time of ${renderDuration(total)}";
   }
 
-  String _renderDuration(Duration duration) {
+  static String renderDuration(Duration duration) {
     var minutesLeft = duration.inMinutes;
-    var result = "";
     if (minutesLeft >= 60) {
       final int hoursLeft = minutesLeft ~/ 60;
-      result = "${hoursLeft}h";
-      minutesLeft -= hoursLeft * 60;
+      final int actualMinutesLeft = minutesLeft - hoursLeft * 60;
+      return "${hoursLeft}h${actualMinutesLeft}min";
     }
 
-    result = "$result${minutesLeft}min";
-    return result;
+    if (minutesLeft >= 1) {
+      return "${minutesLeft}min";
+    }
+
+    return "${duration.inSeconds}s";
   }
 }
