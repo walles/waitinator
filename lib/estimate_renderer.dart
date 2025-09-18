@@ -47,7 +47,7 @@ class EstimateRenderer {
         "between ${renderDuration(remainingLow)}, at ${hhmm.format(earliest)}\n"
         "and ${renderDuration(remainingHigh)}, at ${hhmm.format(latest)}\n"
         "for a total queue time of ${renderDuration(totalLow)}-${renderDuration(totalHigh)}.\n"
-        "Iteration time is between ${renderDuration(_fastIteration)} and ${renderDuration(_slowIteration)}.";
+        "Iteration time is ${renderDurationRange(_fastIteration, _slowIteration)}.";
   }
 
   String _toInBetweenString(DateTime now) {
@@ -55,8 +55,8 @@ class EstimateRenderer {
     final total = latest.difference(startedQueueing);
     return "You will get to $_target in\n"
         "${renderDuration(remaining)}, at ${hhmm.format(latest)}\n"
-        "for a total queue time of ${renderDuration(total)}\n"
-        "Iteration time is between ${renderDuration(_fastIteration)} and ${renderDuration(_slowIteration)}.";
+        "for a total queue time of ${renderDuration(total)}.\n"
+        "Iteration time is ${renderDurationRange(_fastIteration, _slowIteration)}.";
   }
 
   String _toAfterString(DateTime now) {
@@ -64,7 +64,15 @@ class EstimateRenderer {
     final total = latest.difference(startedQueueing);
     return "You should have arrived at $_target\n"
         "${renderDuration(ago)} ago, at ${hhmm.format(latest)}\n"
-        "for a total queue time of ${renderDuration(total)}";
+        "for a total queue time of ${renderDuration(total)}.\n"
+        "Iteration time was ${renderDurationRange(_fastIteration, _slowIteration)}.";
+  }
+
+  static String renderDurationRange(Duration low, Duration high) {
+    if (low == high) {
+      return renderDuration(low);
+    }
+    return "between ${renderDuration(low)} and ${renderDuration(high)}";
   }
 
   static String renderDuration(Duration duration) {
