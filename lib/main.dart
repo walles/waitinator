@@ -4,7 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:waitinator/eta_state.dart';
 import 'package:waitinator/observation.dart';
 
-import 'eta_screen.dart';
+import 'main_ui.dart';
 import 'screen_wrapper.dart';
 
 const persistentStateKey = "etaState";
@@ -71,7 +71,7 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
       ]);
     }
 
-    return EtaScreen(_state!, () {
+    return MainUi(_state!, () {
       GetStorage().remove(persistentStateKey);
       setState(() {
         _state = null;

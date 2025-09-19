@@ -14,21 +14,21 @@ import 'observation.dart';
 import 'compute_estimate.dart';
 import 'tabbed_screen_wrapper.dart';
 
-class EtaScreen extends StatefulWidget {
+class MainUi extends StatefulWidget {
   final EtaState _state;
   final Null Function() _onClose;
 
   /// `onClose()` will be called when the top-left-corner-X is pressed, after
   /// the `EtaScreen` finishes shutting down.
-  const EtaScreen(EtaState state, Null Function() onClose, {super.key})
+  const MainUi(EtaState state, Null Function() onClose, {super.key})
       : _state = state,
         _onClose = onClose;
 
   @override
-  State<EtaScreen> createState() => _EtaScreenState();
+  State<MainUi> createState() => _MainUiState();
 }
 
-class _EtaScreenState extends State<EtaScreen> {
+class _MainUiState extends State<MainUi> {
   EstimateRenderer? _estimate;
 
   final _hhmmss = DateFormat.Hms();
