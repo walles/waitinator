@@ -17,11 +17,18 @@ import 'tabbed_screen_wrapper.dart';
 class MainUi extends StatefulWidget {
   final EtaState _state;
   final Null Function() _onClose;
+  final int currentTabIndex;
+  final void Function(int)? onTabChanged;
 
   /// `onClose()` will be called when the top-left-corner-X is pressed, after
   /// the `EtaScreen` finishes shutting down.
-  const MainUi(EtaState state, Null Function() onClose, {super.key})
-      : _state = state,
+  const MainUi(
+    EtaState state,
+    Null Function() onClose, {
+    super.key,
+    this.currentTabIndex = 0,
+    this.onTabChanged,
+  })  : _state = state,
         _onClose = onClose;
 
   @override
@@ -84,16 +91,22 @@ class _MainUiState extends State<MainUi> {
       etaGraphWidget = EtaGraph(widget._state, _estimate!);
     }
 
-    return TabbedScreenWrapper(const [
-      Tab(icon: Icon(Icons.format_list_numbered)),
-      Tab(icon: Icon(Icons.show_chart)),
-    ], [
-      numbersTab,
-      etaGraphWidget,
-    ], () {
-      _tickCurrentTimeText.cancel();
-      widget._onClose();
-    });
+    return TabbedScreenWrapper(
+      const [
+        Tab(icon: Icon(Icons.format_list_numbered)),
+        Tab(icon: Icon(Icons.show_chart)),
+      ],
+      [
+        numbersTab,
+        etaGraphWidget,
+      ],
+      () {
+        _tickCurrentTimeText.cancel();
+        widget._onClose();
+      },
+      currentTabIndex: widget.currentTabIndex,
+      onTabChanged: widget.onTabChanged,
+    );
   }
 
   Widget _renderObservations() {

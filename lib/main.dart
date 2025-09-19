@@ -41,6 +41,7 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
   String _positionIWantToGetTo = "";
   String _currentPosition = "";
   EtaState? _state;
+  int _currentTabIndex = 0;
 
   @override
   void initState() {
@@ -71,12 +72,29 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
       ]);
     }
 
-    return MainUi(_state!, () {
-      GetStorage().remove(persistentStateKey);
-      setState(() {
-        _state = null;
-      });
-    });
+    return MainUi(
+      _state!,
+      () {
+        // We get here when the user presses the main "close" button
+        if (_currentTabIndex == 1) {
+          // Second tab, just go back to the first tab
+          DefaultTabController.of(context).index = 0;
+          return;
+        }
+
+        // First tab, reset!
+        GetStorage().remove(persistentStateKey);
+        setState(() {
+          _state = null;
+        });
+      },
+      currentTabIndex: _currentTabIndex,
+      onTabChanged: (int index) {
+        setState(() {
+          _currentTabIndex = index;
+        });
+      },
+    );
   }
 
   /// "Number I want to get to: ___"
