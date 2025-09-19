@@ -67,10 +67,11 @@ EstimateRenderer? computeEstimate(EtaState state) {
 
     final velocityMillisecondsPerNumber =
         firstLastDtMillis / (lastPosition - firstPosition).abs();
-    final distanceFromStart = (state.target - firstPosition).abs();
-    final msFromStart = distanceFromStart * velocityMillisecondsPerNumber;
+    final positionsLeft = (state.target - lastPosition).abs();
+    final msLeft = positionsLeft * velocityMillisecondsPerNumber;
 
-    msFromStartSamples.add(_Sample(msFromStart, velocityMillisecondsPerNumber));
+    msFromStartSamples.add(
+        _Sample(firstLastDtMillis + msLeft, velocityMillisecondsPerNumber));
   }
 
   msFromStartSamples.sort((a, b) => a.msFromStart.compareTo(b.msFromStart));
