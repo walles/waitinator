@@ -43,13 +43,24 @@ class EstimateRenderer {
     final remainingHigh = latest.difference(now);
     final totalLow = earliest.difference(startedQueueing);
     final totalHigh = latest.difference(startedQueueing);
+
+    final renderedLow =
+        "${renderDuration(remainingLow)}, at ${hhmm.format(earliest)}";
+    final renderedHigh =
+        "${renderDuration(remainingHigh)}, at ${hhmm.format(latest)}";
+    var renderedArrival = "between $renderedLow\nand $renderedHigh";
+    if (renderedLow == renderedHigh) {
+      renderedArrival = renderedLow;
+    }
+
     return "You will get to $_target in\n"
-        "between ${renderDuration(remainingLow)}, at ${hhmm.format(earliest)}\n"
-        "and ${renderDuration(remainingHigh)}, at ${hhmm.format(latest)}\n"
+        "$renderedArrival\n"
         "for a total queue time of ${renderDurationRange(totalLow, totalHigh)}.\n"
         "Iteration time is ${renderDurationRange(_fastIteration, _slowIteration)}.";
   }
 
+  /// We are in between the earliest and latest estimates, only present the
+  /// latest one.
   String _toInBetweenString(DateTime now) {
     final remaining = latest.difference(now);
     final total = latest.difference(startedQueueing);
@@ -59,6 +70,7 @@ class EstimateRenderer {
         "Iteration time is ${renderDurationRange(_fastIteration, _slowIteration)}.";
   }
 
+  /// We are past the latest estimate, present how far back that was.
   String _toAfterString(DateTime now) {
     final ago = now.difference(latest);
     final total = latest.difference(startedQueueing);
@@ -68,6 +80,7 @@ class EstimateRenderer {
         "Iteration time was ${renderDurationRange(_fastIteration, _slowIteration)}.";
   }
 
+  /// Either "1min-3min" or just "3min" if both render the same
   static String renderDurationRange(Duration low, Duration high) {
     if (low == high) {
       return renderDuration(low);
@@ -75,6 +88,7 @@ class EstimateRenderer {
     return "${renderDuration(low)}-${renderDuration(high)}";
   }
 
+  // "3h2min", "14min" or "33s" depending on how long the duration is
   static String renderDuration(Duration duration) {
     var minutesLeft = duration.inMinutes;
     if (minutesLeft >= 60) {
