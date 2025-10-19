@@ -33,7 +33,7 @@ void main() {
     expect(
         estimate.toString(),
         equals('You will get to 200 in\n'
-            '2min, at 12:42\n'
+            '2m00s, at 12:42\n'
             'for a total queue time of 8min.\n'
             'Iteration time is 33s-44s.'));
   });
@@ -50,16 +50,22 @@ void main() {
     expect(
         estimate.toString(),
         equals('You should have arrived at 200\n'
-            '2min ago, at 12:42\n'
+            '2m00s ago, at 12:42\n'
             'for a total queue time of 8min.\n'
             'Iteration time was 33s-44s.'));
   });
 
   test("Render some durations", () {
-    expect(EstimateRenderer.renderDuration(Duration(minutes: 61)),
-        equals("1h1min"));
-    expect(
-        EstimateRenderer.renderDuration(Duration(seconds: 60)), equals("1min"));
+    expect(EstimateRenderer.renderDuration(Duration(minutes: 60)),
+        equals("1h00m"));
+    expect(EstimateRenderer.renderDuration(Duration(minutes: 59)),
+        equals("59min"));
+    expect(EstimateRenderer.renderDuration(Duration(seconds: 180)),
+        equals("3min"));
+    expect(EstimateRenderer.renderDuration(Duration(seconds: 179)),
+        equals("2m59s"));
+    expect(EstimateRenderer.renderDuration(Duration(seconds: 60)),
+        equals("1m00s"));
     expect(
         EstimateRenderer.renderDuration(Duration(seconds: 59)), equals("59s"));
   });

@@ -94,11 +94,19 @@ class EstimateRenderer {
     if (minutesLeft >= 60) {
       final int hoursLeft = minutesLeft ~/ 60;
       final int actualMinutesLeft = minutesLeft - hoursLeft * 60;
-      return "${hoursLeft}h${actualMinutesLeft}min";
+      final String paddedMinutes = actualMinutesLeft.toString().padLeft(2, '0');
+      return "${hoursLeft}h${paddedMinutes}m";
     }
 
-    if (minutesLeft >= 1) {
+    if (minutesLeft >= 3) {
       return "${minutesLeft}min";
+    }
+
+    var secondsLeft = duration.inSeconds;
+    if (secondsLeft >= 60) {
+      final int actualSecondsLeft = secondsLeft - minutesLeft * 60;
+      final String paddedSeconds = actualSecondsLeft.toString().padLeft(2, '0');
+      return "${minutesLeft}m${paddedSeconds}s";
     }
 
     return "${duration.inSeconds}s";
