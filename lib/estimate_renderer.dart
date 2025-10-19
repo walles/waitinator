@@ -82,10 +82,12 @@ class EstimateRenderer {
 
   /// Either "1min-3min" or just "3min" if both render the same
   static String renderDurationRange(Duration low, Duration high) {
-    if (low == high) {
-      return renderDuration(low);
+    final renderedLow = renderDuration(low);
+    final renderedHigh = renderDuration(high);
+    if (renderedLow == renderedHigh) {
+      return renderedLow;
     }
-    return "${renderDuration(low)}-${renderDuration(high)}";
+    return "$renderedLow-$renderedHigh";
   }
 
   // "3h2min", "14min" or "33s" depending on how long the duration is
