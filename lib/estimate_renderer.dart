@@ -82,6 +82,17 @@ class EstimateRenderer {
 
   /// Either "1min-3min" or just "3min" if both render the same
   static String renderDurationRange(Duration low, Duration high) {
+    if (low.inMinutes < 3 && high.inMinutes == 3) {
+      // Special case: "2m59s-3m00s" rather than "2m59s-3min"
+      final lowSecondsLeft = low.inSeconds - low.inMinutes * 60;
+      final paddedLowSecondsLeft = lowSecondsLeft.toString().padLeft(2, '0');
+      final highSecondsLeft = high.inSeconds - high.inMinutes * 60;
+      final paddedHighSecondsLeft = highSecondsLeft.toString().padLeft(2, '0');
+
+      return "${low.inMinutes}m${paddedLowSecondsLeft}s-"
+          "${high.inMinutes}m${paddedHighSecondsLeft}s";
+    }
+
     final renderedLow = renderDuration(low);
     final renderedHigh = renderDuration(high);
     if (renderedLow == renderedHigh) {

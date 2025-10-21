@@ -69,4 +69,19 @@ void main() {
     expect(
         EstimateRenderer.renderDuration(Duration(seconds: 59)), equals("59s"));
   });
+
+  test("Render some duration ranges", () {
+    expect(
+        EstimateRenderer.renderDurationRange(
+            Duration(seconds: 179), Duration(seconds: 180)),
+        equals("2m59s-3m00s"));
+    expect(
+        EstimateRenderer.renderDurationRange(
+            Duration(seconds: 179), Duration(seconds: 240)),
+        equals("2m59s-4min"));
+    expect(
+        EstimateRenderer.renderDurationRange(
+            Duration(seconds: 180), Duration(seconds: 181)),
+        equals("3min"));
+  });
 }
