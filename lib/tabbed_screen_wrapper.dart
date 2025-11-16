@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waitinator/screen_wrapper.dart';
+import 'package:waitinator/eta_state.dart';
 
 /// See also `ScreenWrapper`
 class TabbedScreenWrapper extends StatelessWidget {
@@ -8,12 +9,14 @@ class TabbedScreenWrapper extends StatelessWidget {
   final Null Function() _onClose;
   final int currentTabIndex;
   final void Function(int)? onTabChanged;
+  final EtaState etaState;
 
   /// The [children] will be rendered in a Column.
   TabbedScreenWrapper(
     List<Tab> tabs,
     List<Widget> tabViews,
     Null Function() onClose, {
+    required this.etaState,
     super.key,
     this.currentTabIndex = 0,
     this.onTabChanged,
@@ -56,7 +59,7 @@ class TabbedScreenWrapper extends StatelessWidget {
                 tabs: _tabs,
               ),
               leading: closeButton,
-              actions: ScreenWrapper.actions(context),
+              actions: ScreenWrapper.actions(context, etaState),
             ),
             body: Container(
               alignment: Alignment.center,

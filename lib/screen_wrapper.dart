@@ -5,57 +5,72 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// See also `TabbedScreenWrapper`
+import 'eta_state.dart';
+
 class ScreenWrapper extends StatelessWidget {
   final List<Widget> _children;
+  final EtaState? etaState;
 
   /// The [children] will be rendered in a Column.
-  const ScreenWrapper(List<Widget> children, {super.key})
-      : _children = children;
+  const ScreenWrapper({
+    required List<Widget> children,
+    this.etaState,
+    super.key,
+  }) : _children = children;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(title: const Text('Waitinator'), actions: actions(context)),
+      appBar: AppBar(
+        title: const Text('Waitinator'),
+        actions: actions(context, etaState),
+      ),
       body: Container(
         alignment: Alignment.center,
         child: Container(
-            padding: const EdgeInsets.all(20.0),
-            constraints: const BoxConstraints(
-                maxWidth:
-                    400 // FIXME: What is the unit here? How will this look on different devices?
-                ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: _children,
-            )),
+          padding: const EdgeInsets.all(20.0),
+          constraints: const BoxConstraints(
+              maxWidth:
+                  400 // FIXME: What is the unit here? How will this look on different devices?
+              ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: _children,
+          ),
+        ),
       ),
     );
   }
 
-  static List<Widget> actions(BuildContext context) {
+  static List<Widget> actions(BuildContext context, EtaState? etaState) {
     return [
       PopupMenuButton<String>(
         icon: const Icon(Icons.menu),
         onSelected: (value) {
           if (value == 'about') {
             showAboutDialog(
-                context: context,
-                applicationLegalese: "© 2022 johan.walles@gmail.com",
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: infoText(),
-                  ),
-                ]);
+              context: context,
+              applicationLegalese: "© 2022 johan.walles@gmail.com",
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: infoText(),
+                ),
+              ],
+            );
             return;
           }
 
           if (value == 'change-target') {
+            if (etaState == null) {
+              return;
+            }
+
             showDialog(
               context: context,
               builder: (context) {
-                final controller = TextEditingController();
+                final controller =
+                    TextEditingController(text: etaState.target.toString());
                 return AlertDialog(
                   title: const Text('Change target'),
                   content: TextField(
@@ -90,6 +105,7 @@ class ScreenWrapper extends StatelessWidget {
           return [
             PopupMenuItem<String>(
               value: 'change-target',
+              enabled: etaState != null,
               child: Row(
                 children: const [
                   Icon(Icons.edit),

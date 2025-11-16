@@ -56,20 +56,22 @@ class _WaitinatorAppState extends State<WaitinatorApp> {
   @override
   Widget build(BuildContext context) {
     if (_state == null) {
-      return ScreenWrapper(<Widget>[
-        _positionIWantToGetToWidget(),
-        _currentPositionWidget(),
-        const SizedBox(
-            height:
-                20 // FIXME: What is the unit here? How will this look on different devices?
-            ),
-        _explanationWidget(),
-        const SizedBox(
-            height:
-                20 // FIXME: What is the unit here? How will this look on different devices?
-            ),
-        _startButton(),
-      ]);
+      return ScreenWrapper(
+        children: <Widget>[
+          _positionIWantToGetToWidget(),
+          _currentPositionWidget(),
+          const SizedBox(
+              height:
+                  20 // FIXME: What is the unit here? How will this look on different devices?
+              ),
+          _explanationWidget(),
+          const SizedBox(
+              height:
+                  20 // FIXME: What is the unit here? How will this look on different devices?
+              ),
+          _startButton(),
+        ],
+      );
     }
 
     return MainUi(

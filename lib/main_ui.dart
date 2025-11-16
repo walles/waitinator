@@ -104,6 +104,7 @@ class _MainUiState extends State<MainUi> {
         _tickCurrentTimeText.cancel();
         widget._onClose();
       },
+      etaState: widget._state,
       currentTabIndex: widget.currentTabIndex,
       onTabChanged: widget.onTabChanged,
     );
