@@ -1,0 +1,22 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Analyze and Test",
+			"type": "shell",
+			"command": "flutter analyze && flutter test",
+			"group": "test",
+			"presentation": {
+				"reveal": "always"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Analyze and Test",
+			"type": "shell",
+			"command": "flutter analyze && flutter test",
+			"problemMatcher": [],
+			"group": "test"
+		}
+	]
+}
