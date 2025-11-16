@@ -51,7 +51,40 @@ class ScreenWrapper extends StatelessWidget {
             return;
           }
 
-          // 'change-target' selected: no action yet
+          if (value == 'change-target') {
+            showDialog(
+              context: context,
+              builder: (context) {
+                final controller = TextEditingController();
+                return AlertDialog(
+                  title: const Text('Change target'),
+                  content: TextField(
+                    controller: controller,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: 'Target number',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+              },
+            );
+            return;
+          }
         },
         itemBuilder: (context) {
           return [
