@@ -38,22 +38,33 @@ class ScreenWrapper extends StatelessWidget {
       PopupMenuButton<String>(
         icon: const Icon(Icons.menu),
         onSelected: (value) {
-          if (value != 'about') {
+          if (value == 'about') {
+            showAboutDialog(
+                context: context,
+                applicationLegalese: "© 2022 johan.walles@gmail.com",
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: infoText(),
+                  ),
+                ]);
             return;
           }
 
-          showAboutDialog(
-              context: context,
-              applicationLegalese: "© 2022 johan.walles@gmail.com",
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: infoText(),
-                ),
-              ]);
+          // 'change-target' selected: no action yet
         },
         itemBuilder: (context) {
           return [
+            PopupMenuItem<String>(
+              value: 'change-target',
+              child: Row(
+                children: const [
+                  Icon(Icons.edit),
+                  SizedBox(width: 8),
+                  Text('Change target'),
+                ],
+              ),
+            ),
             PopupMenuItem<String>(
               value: 'about',
               child: Row(
