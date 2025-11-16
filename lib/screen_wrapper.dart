@@ -35,9 +35,13 @@ class ScreenWrapper extends StatelessWidget {
 
   static List<Widget> actions(BuildContext context) {
     return [
-      IconButton(
-        icon: const Icon(Icons.info),
-        onPressed: () {
+      PopupMenuButton<String>(
+        icon: const Icon(Icons.menu),
+        onSelected: (value) {
+          if (value != 'about') {
+            return;
+          }
+
           showAboutDialog(
               context: context,
               applicationLegalese: "© 2022 johan.walles@gmail.com",
@@ -48,7 +52,20 @@ class ScreenWrapper extends StatelessWidget {
                 ),
               ]);
         },
-        tooltip: 'About',
+        itemBuilder: (context) {
+          return [
+            PopupMenuItem<String>(
+              value: 'about',
+              child: Row(
+                children: const [
+                  Icon(Icons.info_outline),
+                  SizedBox(width: 8),
+                  Text('About'),
+                ],
+              ),
+            ),
+          ];
+        },
       ),
     ];
   }
